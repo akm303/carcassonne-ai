@@ -14,12 +14,21 @@ Carcassonne implementation in python
 * Farmers
 
 ## Installation
+Updated for python 3.11.5
 
 * Clone the project
 * Go to the project folder
-* Run: 
+* Run the following: 
+```sh
+# sets up local environment
+python -m venv venv 
 
-	    pip install .
+# activates local environment
+source .venv/bin/activate
+
+# installs required packages (numpy & Pillow)
+pip install -r requirements.txt
+```
 
 You can now use the API in other projects.
 
