@@ -15,7 +15,7 @@ game = CarcassonneGame(
 
 while not game.is_finished():
     player: int = game.get_current_player()
-    valid_actions: [Action] = game.get_possible_actions()
+    valid_actions: list[Action] = game.get_possible_actions()
     action: Optional[Action] = random.choice(valid_actions)
     if action is not None:
         game.step(player, action)
