@@ -7,7 +7,7 @@ from wingedsheep.carcassonne.objects.actions.action import Action
 from wingedsheep.carcassonne.tile_sets.supplementary_rules import SupplementaryRule
 from wingedsheep.carcassonne.tile_sets.tile_sets import TileSet
 
-from agents.agent import Agent
+from agents.agent import GameAgent
 
 game = CarcassonneGame(
     players=2,
@@ -15,11 +15,11 @@ game = CarcassonneGame(
     supplementary_rules=[SupplementaryRule.ABBOTS, SupplementaryRule.FARMERS],
 )
 
+players = [GameAgent(i) for i in range(game.players)]
 while not game.is_finished():
-    player: int = game.get_current_player()
-    playerAgent: Agent = game.playerAgents[player] 
-    valid_actions: list[Action] = game.get_possible_actions()
-    action: Optional[Action] = playerAgent.choice(valid_actions)
+    player_id: int = game.get_current_player()
+    playerAgent: GameAgent = players[player_id]
+    action: Optional[Action] = playerAgent.choice(game)
     if action is not None:
-        game.step(player, action)
+        game.step(player_id, action)
     game.render()
