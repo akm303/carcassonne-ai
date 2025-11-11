@@ -8,3 +8,6 @@ class MeepleAction(Action):
         self.meeple_type = meeple_type
         self.coordinate_with_side = coordinate_with_side
         self.remove = remove
+
+    def __str__(self):
+        return str((self.meeple_type.name, str(self.coordinate_with_side), f"remove? {self.remove}"))

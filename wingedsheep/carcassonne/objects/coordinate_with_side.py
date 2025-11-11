@@ -13,3 +13,6 @@ class CoordinateWithSide:
 
     def __hash__(self):
         return hash((self.coordinate, self.side))
+
+    def __str__(self):
+        return str(self.coordinate) +  str(self.side.name)
