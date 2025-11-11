@@ -8,3 +8,6 @@ class TileAction(Action):
         self.tile = tile
         self.coordinate = coordinate
         self.tile_rotations = tile_rotations
+
+    def __str__(self):
+        return str((self.tile.description, str(self.coordinate), self.tile_rotations))

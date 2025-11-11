@@ -6,6 +6,7 @@ from wingedsheep.carcassonne.tile_sets.tile_sets import TileSet
 from wingedsheep.carcassonne.utils.action_util import ActionUtil
 from wingedsheep.carcassonne.utils.state_updater import StateUpdater
 
+from agents.agent import Agent
 
 class CarcassonneGame:
 
@@ -14,6 +15,7 @@ class CarcassonneGame:
                  tile_sets: [TileSet] = (TileSet.BASE, TileSet.THE_RIVER, TileSet.INNS_AND_CATHEDRALS),
                  supplementary_rules: [SupplementaryRule] = (SupplementaryRule.FARMERS, SupplementaryRule.ABBOTS)):
         self.players = players
+        self.playerAgents = [Agent(i) for i in range(self.players)]
         self.tile_sets = tile_sets
         self.supplementary_rules = supplementary_rules
         self.state: CarcassonneGameState = CarcassonneGameState(
