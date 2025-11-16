@@ -18,11 +18,13 @@ from wingedsheep.carcassonne.objects.actions.action import Action
 
 class Agent:
     """
+    Abstract Agent class
     Agent must define a getAction method
     """
 
     def __init__(self, index=0):
         self.index = index
+        self.type = "Abstract"
 
     def choice(self, game):
         return self.getAction(game)
@@ -31,9 +33,11 @@ class Agent:
         raise NotImplementedError()
 
 
-class GameAgent(Agent):
+class RandAgent(Agent):
+    """Agent that selects random moves"""
     def __init__(self, index):
         self.index = index
+        self.type = "Rand"
 
     def getAction(self, game: CarcassonneGame):
         """
@@ -41,5 +45,35 @@ class GameAgent(Agent):
         """
         valid_actions: list[Action] = game.get_possible_actions()
         action = random.choice(valid_actions)
-        print(f"Agent_{self.index}: {action}")
+        print(f"Agent({self.type}) {self.index}: {action}")
         return action
+
+
+class PlayerAgent(Agent):
+    """Agent that takes human inputs to select next move"""
+    def __init__(self, index):
+        self.index = index
+        self.type = "Player"
+
+    def getAction(self, game: CarcassonneGame):
+        pass
+
+
+class MCTSAgent(Agent):
+    """Agent using Monte-Carlo Tree Search"""
+    def __init__(self, index):
+        self.index = index
+        self.type = "MCTS"
+
+    def getAction(self, game: CarcassonneGame):
+        pass
+
+
+class QLearnAgent(Agent):
+    """rename based on reinforcement learning agent we choose to implement"""
+    def __init__(self, index):
+        self.index = index
+        self.type = "Qlearn"
+
+    def getAction(self, game: CarcassonneGame):
+        pass
