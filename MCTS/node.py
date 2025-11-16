@@ -1,10 +1,12 @@
+import copy
+
 from wingedsheep.carcassonne.carcassonne_game import CarcassonneGameState
 from wingedsheep.carcassonne.objects.actions.action import Action
 from wingedsheep.carcassonne.objects.actions.tile_action import TileAction
 from wingedsheep.carcassonne.utils.action_util import ActionUtil
 from wingedsheep.carcassonne.utils.state_updater import StateUpdater
 
-from typing import Dict
+from typing import Dict, Tuple
 
 import random
 import math
@@ -14,7 +16,7 @@ class MCTSNode:
         self.state: CarcassonneGameState = state
         self.exploration_rate = exploration_rate
         self.parent: MCTSNode = parent
-        self.children: Dict[Action, state] = {}
+        self.children: Dict[Tuple[Action, Action], state] = {}
         self.visits = 0
         self.wins = 0
 
@@ -25,33 +27,64 @@ class MCTSNode:
         return ActionUtil.get_possible_actions(self.state)
 
     def select_expand(self):
-        # Select base on score
-        curr_max_q = float('-inf')
         explore = random.random() < self.exploration_rate
-        if len(self.children) == 0 or (explore and not self.is_fully_expanded()):
-            untried_actions = [action for action in self.get_possible_actions() if action not in self.children]
-            action = random.choice(untried_actions)
-            new_state = StateUpdater.apply_action(self.state, action)
+        # Generate possible action pairs
+        action_pairs = []
+        # Tile action
+        tile_actions = [action for action in self.get_possible_actions()]
+        # verification
+        for x in tile_actions:
+            if not isinstance(x, TileAction):
+                raise ValueError("Expected TileAction in tile_actions")
+        for tile_action in tile_actions:
+            # Placement actions
+            new_state = StateUpdater.apply_action(self.state, tile_action)
+            meeple_actions = [action for action in ActionUtil.get_possible_actions(new_state)]
+            # verification
+            for x in meeple_actions:
+                if isinstance(x, TileAction):
+                    raise ValueError("Expected non-TileAction in placement_actions")
+            if meeple_actions:
+                for meeple_action in meeple_actions:
+                    action_pairs.append((tile_action, meeple_action))
+            else:
+                action_pairs.append((tile_action, None))
+
+        selected_path = None
+
+        curr_max_q = float('-inf')
+
+        for action_pair in action_pairs:
+            if action_pair in self.children:
+                state = self.children[action_pair]
+                q = state.wins / state.visits + (2 * (2 * math.log(self.visits + 1) / (state.visits + 1)) ) ** 0.5
+            else:
+                q = 0.5 + (2 * (2 * math.log(self.visits + 1) / 1) ) ** 0.5
+
+            if q > curr_max_q:
+                curr_max_q = q
+                selected_path = action_pair
+
+        if selected_path not in self.children:
+            # Gen new node
+            tile_action, meeple_action = selected_path
+            new_state = StateUpdater.apply_action(self.state, tile_action)
+            if meeple_action is not None:
+                new_state = StateUpdater.apply_action(new_state, meeple_action)
             new_node = MCTSNode(state=new_state, exploration_rate=self.exploration_rate, parent=self)
-            self.children[action] = new_node
+            self.children[selected_path] = new_node
             return new_node
         else:
-            selected_action = None
-            for action, state in self.children.items():
-                q = state.wins / state.visits + (2 * (2 * math.log(self.visits) / state.visits) ) ** 0.5
-                if q > curr_max_q:
-                    curr_max_q = q
-                    selected_action = action
-            curr_node = self.children[selected_action]
+            curr_node = self.children[selected_path]
             return curr_node.select_expand()
 
     def rollout(self):
-        current_state = self.state
+        current_state = copy.deepcopy(self.state)
         while not current_state.is_terminated():
             # print(f"Remaining tiles: {len(current_state.deck)}")
             possible_actions = ActionUtil.get_possible_actions(current_state)
             action = random.choice(possible_actions)
-            current_state = StateUpdater.apply_action(current_state, action)
+            current_state = StateUpdater.apply_action(current_state, action, need_copy=False)
         return current_state
 
     def update(self, win: bool, result: int):

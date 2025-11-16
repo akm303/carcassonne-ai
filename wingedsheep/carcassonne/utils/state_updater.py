@@ -71,9 +71,11 @@ class StateUpdater:
         return game_state
 
     @classmethod
-    def apply_action(cls, game_state: CarcassonneGameState, action: Action) -> CarcassonneGameState:
-        new_game_state: CarcassonneGameState = copy.deepcopy(game_state)
-
+    def apply_action(cls, game_state: CarcassonneGameState, action: Action, need_copy=True) -> CarcassonneGameState:
+        if need_copy:
+            new_game_state: CarcassonneGameState = copy.deepcopy(game_state)
+        else:
+            new_game_state: CarcassonneGameState = game_state
         if isinstance(action, TileAction):
             cls.play_tile(game_state=new_game_state, tile_action=action)
             new_game_state.phase = GamePhase.MEEPLES
