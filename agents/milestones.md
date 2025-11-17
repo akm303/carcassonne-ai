@@ -129,7 +129,7 @@ $$
 ---
 
 
-
+<!-- 
 **State Space**:  
 #### version 2
 $T$ is the total set of tiles
@@ -138,7 +138,6 @@ At each state $x_s,\ \forall$ steps $s, 0≤s≤72$:
 Let $B_s$ be the set of tiles currently placed on the board.  
 Let $T_s$ be the set of remaining tiles ($T_s=T-B_s$).  
 Let $i,j$ indicate row and column indices respectively ($\forall i,j: 1≤i,j≤72$).  
-<!-- Let $l,w$ indicate board length and width respectively. -->
 
 **Board Model**  
 Max row or column-length of a Carcassonne board would be 72.  
@@ -174,7 +173,7 @@ t_{ij} =
    00 & 01 \\
    10 & 11 \\
 \end{bmatrix}
-$$
+$$ -->
 
 
 
