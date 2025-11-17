@@ -87,7 +87,7 @@ $$
  -->
 Step $s=0$ is the initial game state.  
 $x_0$:
-- The set of remaining tiles $P_0=\{t_0,t_1,t_2,...,t_{71}\}$ 
+- The set of remaining tiles $P_0=\{t_1,t_1,t_2,...,t_{72}\}$ 
 - so $|B_0|=\{\}$, and
 $$
 B_0=
@@ -100,10 +100,10 @@ B_0=
 $$
   
 
-Each step $s$:  
+At each step $s$:  
 $x_s$:  
-- Draw and place tile $t_s$
-- The set of remaining tiles $P_1=\{t_s,...,t_{71}\}$ 
+- Player draws and places tile $t_s$
+- The set of remaining tiles $P_1=\{t_{s+1},...,t_{72}\}$ 
 - The current board $B_1=\{t_0,t_1\}$
 
 ---
