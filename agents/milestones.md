@@ -34,8 +34,11 @@ Carcassone is a turn-based tile-placement game. Though the game allows for 2-5 p
 # State Space:
 #### Version 4
 The state space for Carcassonne is the set of unique boards and meeple placements that can be generated over the course of the game.  
+*_Note:  
+Due to the game implementation, there are a few changes & limitations that don't exist in the original game [1]  
+(eg. board size limitations, no starting tiles so first tile placed by first player, etc.)_
 
-- Pile of undrawn tiles $t\in$ pile $P=\{t_0,t_2,...,t_{71}\}$ is non-uniformly distributed.  
+- Pile of undrawn tiles $t\in$ pile $P=\{t_1,t_2,...,t_{72}\}$ is non-uniformly distributed.  
 - For Board $B$
     - Let Board $B$ be a 30x30 matrix*
     - Let $i,j$ be indices such that $\forall i,j: 1 ≤ i,j ≤ 30$*  
@@ -59,7 +62,6 @@ B=
 $$
 and let $|B|$ be the set of tiles currently in $B$
 
-*_(limited by wingedsheep's game implementation [1])_   
 
 
 ---
@@ -67,9 +69,10 @@ and let $|B|$ be the set of tiles currently in $B$
 At each step $s$, where $0 ≤ s ≤ 72$  
 (where s=0 represents the board setup before the first action).  
 State $x_s$ at step $s$ is defined by:
-- $B_s$ is the board state at s (ie. $|B_s|=\{t_0,...,t_{s-1}\}$)
-- $P_s$ is the remaining undrawn tiles @ s (ie. $P_s = P-|B_s|$)
-- $t_s$ is the tile drawn at step $s$
+- Let $B_s$ be the board state at s (ie. $|B_s|=\{t_0,...,t_{s-1}\}$)
+- Let $P_s$ be the remaining undrawn tiles @ s (ie. $P_s = P-|B_s|$)
+- Let $t_s$ be the tile drawn at step $s$
+
 
 <!-- Commented out bc we havent really defined these...?
 - Transition matrix $T_{s}$ 
@@ -82,25 +85,25 @@ a_{ij} =
 \end{cases}
 $$
  -->
-
-(@ $x_0$) Step 0 is the initial game state:
-- $t_0$ is the starting tile, and is placed randomly on the board*
-- The set of remaining tiles $P_0=\{t_1,t_2,...,t_{71}\}$ 
-- The current board $B_0=\{t_0\}$
-
+Step $s=0$ is the initial game state.  
+$x_0$:
+- The set of remaining tiles $P_0=\{t_0,t_1,t_2,...,t_{71}\}$ 
+- so $|B_0|=\{\}$, and
 $$
 B_0=
 \begin{bmatrix}
     0 & 0 & 0 & \dots  & 0 \\
     0 & 0 & 0 & \dots  & 0 \\
-    \vdots & \vdots & \vdots & t_0 & \vdots \\
-    0 & 0 & 0 & \dots  & 0
+    \vdots & \vdots & \vdots & \ddots & \vdots \\
+    0 & 0 & 0 & \dots  & 0 \\
 \end{bmatrix}
 $$
+  
 
-(@ $x_1$) Step 1 is the first action of the game:
-- Drew and placed tile $t_1$
-- The set of remaining tiles $P_1=\{t_2,...,t_{71}\}$ 
+Each step $s$:  
+$x_s$:  
+- Draw and place tile $t_s$
+- The set of remaining tiles $P_1=\{t_s,...,t_{71}\}$ 
 - The current board $B_1=\{t_0,t_1\}$
 
 ---
