@@ -28,6 +28,7 @@ Carcassone is a turn-based tile-placement game. Though the game allows for 2-5 p
 ## Milestone 1 (Nov 16): 
 
 ### State Space:
+<!-- ! Trying to model how getting the next move -->
 #### Version 5
 The state space $\mathcal{S}$ for Carcassonne is the set of unique boards and meeple placements that can be generated over the course of the game.  
 
@@ -37,16 +38,24 @@ The state space $\mathcal{S}$ for Carcassonne is the set of unique boards and me
 ---
 #### State Model
 ---
-Let pile $P$ represent the set of undrawn tiles $t$.  
-$t\in P=\{t_1,t_2,...,t_{72}\}$ is non-uniformly distributed.  
+##### Tiles
+Let $\mathcal{T}=\{t_a,t_b,...,t_z\}$ be the set of all landscape tiles $t$.  
+Each $t$ is a square where each edge, corner, and center contains a feature from the set of features $\mathcal{F}=\{grass, city, road\}$
+
+The tiles $t\in\mathcal{T}$ are non-uniformly distirbuted.  
+
+Let $D$ be a stack of undrawn tiles $t$ ($D$ will be referred to as the 'pile' or 'deck').  
+$\forall t\in\mathcal{T}$ are pushed onto stack $D$ in a random order.  
+$t\in D=\{t_1,t_2,...,t_{72}\}$ is non-uniformly distributed.  
 
 ---
+##### Board
 Let $B$ represent the Board state:
 - Let Board $B$ be a 30x30 matrix*
 - Let $i,j$ be indices such that $\forall i,j: 1 ≤ i,j ≤ 30$*  
-- For each $b_{ij}\in B$:
+- For each $b_{i,j}\in B$:
 $$
-b_{ij} = 
+b_{i,j} = 
 \begin{cases} 
     0 & \text{if no tile at position }(i,j) \\
     t_{s} & \text{if tile $t_s$ at position }(i,j) \\
@@ -65,7 +74,17 @@ $$
 Let $|B|$ be the set of tiles currently in $B$
 
 ---
-Each tile $t\in P$ is a square where each edge contains a feature type.  
+Each Landscape Tile $t\in D$ is a square with:
+- four edges, each side of the square:
+    - $\{n,s,e,w\}$ (ie. north, south, east, west)
+- five subfeature (meeple) locations, the four edges and the center:
+    - $\{n,s,e,w,c\}$ (ie. north, south, east, west, center)
+
+The base game tiles have _ possible features:
+
+Each edge must be placed adjacent to 
+ that may contain up to 5 
+ contains a feature type.  
 We will enumerate the four edges as relative north, south, east, and west.  
 ie. Tile $t$'s edges can be represented as an enumeration:
 <!-- todo: enumerate feature types, so can define Pr[e = f and e=e' | x_{s-1}] or smth? -->
@@ -85,7 +104,7 @@ t =
 \end{matrix}
 \right]
 $$
-When drawn, the tile may be rotated by $\theta\in\{0º,90º,180º,270º\}$, and is then placed on the board at some selected $(i,j)$
+When drawn, the tile may be rotated by $\theta\in\{0º,90º,180º,270º\}$, then placed on the board $B$ at some selected $(i,j)$
 
 ---
 $\therefore$
@@ -94,10 +113,11 @@ At each step $s$, where $0 ≤ s ≤ 72$
 (where s=0 represents the board setup before the first action).  
 - Let $B_s$ be the board state at step s 
     - (ie. $|B_s|=\{t_1,...,t_{s-1}\}$)
-- Let $P_s$ be the remaining undrawn tiles at step s 
-    - (ie. $P_s = P-|B_s|$)
-- Let $t_s$ be the tile drawn at step $s$
-<!-- - Let $t_s$ be the tile drawn next from $P$ at step $s$ -->
+- Let $P_s$ be the remaining undrawn tiles
+    - (ie. $P_s = D-|B_s|$)
+- Let $t_s$ be the next tile drawn
+    - (ie. $t_s=D.top()$)
+<!-- - Let $t_s$ be the tile drawn next from $D$ at step $s$ -->
 
 Let $X$ be the set of all possible game states.  
 State $x\in X$ at step $s$ is defined as $x_s = [B_s,P_s,t_s]$ <!-- M_s]$ to model meeples? -->
@@ -106,8 +126,8 @@ State $x\in X$ at step $s$ is defined as $x_s = [B_s,P_s,t_s]$ <!-- M_s]$ to mod
 ---
 #### Initial State (ie. $s=0$):
 $x_0$:
-<!-- - $P_0=P \implies t_0 =$  -->
-- $P_0=P$ 
+<!-- - $P_0=D \implies t_0 =$  -->
+- $P_0=D$ 
 - $B_0$ is an empty board; ie. 
 $$
 B_0=
@@ -121,8 +141,8 @@ B_0=
 $$
 - no tile drawn at $s=0$
 
-ie. $x_0 = [P, B_0, \empty]$
-<!-- ie. $x_0 = [P, B_0, t_0]$ -->
+ie. $x_0 = [D, B_0, \empty]$
+<!-- ie. $x_0 = [D, B_0, t_0]$ -->
   
 #### For each step (ie. $\forall s,\ 0 < s ≤ 72$):
 $x_s$:  
@@ -132,27 +152,18 @@ $x_s$:
 
 Agent takes action $a_s$ which includes:
 - coordinates $i,j$, and orientation $\theta$ to place tile $t_s$ (ie. to set $b_{ij}=t_s$)
-- coordinates i,j and to place tile $t_s$ (ie. to set $b_{ij}=t_s$)
-:  
+- coordinates i,j and to place tile $t_s$ (ie. to set $b_{ij}=t_s$):  
 Policy $\pi(x_s,a_s)$:
 - Phase 1:
     - The current board $B_s=\{t_1,t_2,...,t_s\}$
     - Player will place tile $t_s\rightarrow B_{s-1}$ at some $b_{ij}$ (per policy $\pi$)
 
 
----
----
----
----
----
-
----
-- f
 
 
 ---
-
-
+---
+---
 ---
 
 
@@ -269,3 +280,6 @@ Carcassonne Implementation
 polyominoes
 [2] https://www.math.cmu.edu/~bkell/21110-2010s/polyominoes.html
 [3] https://epubs.siam.org/doi/10.1137/1.9781611977929.10
+
+Markov Modeling  
+[4] https://ml-lectures.org/docs/reinforcement_learning/ml_reinforcement-learning-2.html
