@@ -13,7 +13,7 @@ from agents.agent import Agent
 from agents.agent import RandAgent
 from agents.agent import PlayerAgent
 # from agents.agent import MCTSAgent
-# from agents.agent import QLearnAgent
+from agents.agent import QLearnAgent
 
 def main():
 
@@ -35,7 +35,12 @@ def main():
     # )
 
     #todo: adjust to init agents based on game setup
-    players = [RandAgent(i) for i in range(game.players)] 
+    
+    #players = [QLearnAgent(i) for i in range(game.players)] 
+    players = [
+    QLearnAgent(0),   # your RL agent
+    RandAgent(1)      # random opponent
+    ]
 
     # game loop
     while not game.is_finished():
@@ -45,6 +50,8 @@ def main():
         if action is not None:
             game.step(player_id, action)
         game.render()
+    
+    print("Final scores:", game.state.scores)
 
 
 if __name__ == "__main__":
