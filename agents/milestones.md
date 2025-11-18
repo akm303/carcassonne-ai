@@ -28,23 +28,28 @@ Carcassone is a turn-based tile-placement game. Though the game allows for 2-5 p
 ## Milestone 1 (Nov 16): 
 
 ### State Space:
+#### Version 5
+The state space $\mathcal{S}$ for Carcassonne is the set of unique boards and meeple placements that can be generated over the course of the game.  
 
-#### Version 4
-The state space for Carcassonne is the set of unique boards and meeple placements that can be generated over the course of the game.  
-*_Note:  
-Due to the game implementation, there are a few changes & limitations that don't exist in the original game [1]  
-(eg. board size limitations, no starting tiles so first tile placed by first player, etc.)_
+*_Note: Due to the game implementation, there are a few changes & limitations that differ from the original game [1]  
+(includes: board size limited to 30x30, no starting tile, first tile placed by first player)_
 
-- Pile of undrawn tiles $t\in$ pile $P=\{t_1,t_2,...,t_{72}\}$ is non-uniformly distributed.  
-- For Board $B$
-    - Let Board $B$ be a 30x30 matrix*
-    - Let $i,j$ be indices such that $\forall i,j: 1 ≤ i,j ≤ 30$*  
-    - For each $b_{ij}\in B$:
+---
+#### State Model
+---
+Let pile $P$ represent the set of undrawn tiles $t$.  
+$t\in P=\{t_1,t_2,...,t_{72}\}$ is non-uniformly distributed.  
+
+---
+Let $B$ represent the Board state:
+- Let Board $B$ be a 30x30 matrix*
+- Let $i,j$ be indices such that $\forall i,j: 1 ≤ i,j ≤ 30$*  
+- For each $b_{ij}\in B$:
 $$
 b_{ij} = 
 \begin{cases} 
-    0 & \text{if no tile at position }i,j \\
-    t_{s} & \text{if tile $t_s$ at position }i,j \\
+    0 & \text{if no tile at position }(i,j) \\
+    t_{s} & \text{if tile $t_s$ at position }(i,j) \\
 \end{cases}
 $$  
 ie. Board B is:
@@ -57,35 +62,41 @@ B=
     b_{30,1} & b_{30,2} & b_{30,3} & \dots  & b_{30,30}
 \end{bmatrix}
 $$
-and let $|B|$ be the set of tiles currently in $B$
+Let $|B|$ be the set of tiles currently in $B$
 
 ---
-Policy $\pi(x_s,a_s)$:
-- f
+Each tile $t\in P$ is a square where each edge contains a feature type.  
+We will enumerate the four edges as relative north, south, east, and west.  
+ie. Tile $t$'s edges can be represented as an enumeration:
+<!-- todo: enumerate feature types, so can define Pr[e = f and e=e' | x_{s-1}] or smth? -->
+$$
+t = 
+\left[
+\begin{matrix}
+   e_{west} & e_{north} \cr
+   e_{south} & e_{east} \cr
+\end{matrix}
+\right]
+=
+\left[
+\begin{matrix}
+   00 & 01 \cr
+   10 & 11 \cr
+\end{matrix}
+\right]
+$$
+When drawn, the tile may be rotated by $\theta\in\{0º,90º,180º,270º\}$, and is then placed on the board at some selected $(i,j)$
 
-
----
+$\therefore$
 
 At each step $s$, where $0 ≤ s ≤ 72$  
 (where s=0 represents the board setup before the first action).  
 State $x_s$ at step $s$ is defined by:
-- Let $B_s$ be the board state at s (ie. $|B_s|=\{t_0,...,t_{s-1}\}$)
+- Let $B_s$ be the board state at s (ie. $|B_s|=\{t_1,...,t_{s-1}\}$)
 - Let $P_s$ be the remaining undrawn tiles @ s (ie. $P_s = P-|B_s|$)
 - Let $t_s$ be the tile drawn at step $s$
 
-
-<!-- Commented out bc we havent really defined these...?
-- Transition matrix $T_{s}$ 
-- Action $a_s$ is a 30x30 matrix, where:
-$$
-a_{ij} = 
-\begin{cases} 
-    1 & \text{if tile $t_s$ is to be placed at position }i,j \\
-    0 & \text{otherwise} \\
-\end{cases}
-$$
- -->
-Step $s=0$ (initial state).  
+#### Initial State (ie. $s=0$):
 $x_0$:
 - $P_0=P$ 
 - $B_0$ is an empty board; ie. 
@@ -100,16 +111,34 @@ B_0=
 |B_0|=\{\}
 $$
   
-
-At each step $s$:  
+#### For each step (ie. $\forall s,\ 0 < s ≤ 72$):
 $x_s$:  
-- $t_s \leftarrow P_s$  (Player draws tile from pile)
-- Set of remaining pile $P_s=\{t_{s+1},...,t_{72}\}$ 
+- $t_s \leftarrow P_{s-1}$  (ie. Player draws tile from pile)
+- $\theta = rotate(t_s)$
+- $P_s = P_{s-1} - \{t_s\} =\{t_{s+1},...,t_{72}\}$ (ie. Set of remaining tiles in pile)
 
-Agent takes action $a_s$:
+Agent takes action $a_s$ which includes:
+- coordinates $i,j$, and orientation $\theta$ to place tile $t_s$ (ie. to set $b_{ij}=t_s$)
+- coordinates i,j and to place tile $t_s$ (ie. to set $b_{ij}=t_s$)
+:  
+Policy $\pi(x_s,a_s)$:
 - Phase 1:
     - The current board $B_s=\{t_1,t_2,...,t_s\}$
     - Player will place tile $t_s\rightarrow B_{s-1}$ at some $b_{ij}$ (per policy $\pi$)
+
+
+---
+---
+---
+---
+---
+
+---
+- f
+
+
+---
+
 
 ---
 
