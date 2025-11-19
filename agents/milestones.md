@@ -25,24 +25,68 @@ Carcassone is a turn-based tile-placement game. Though the game allows for 2-5 p
 2. A game ends once all 72 tiles are placed.
 
 ---
-## Milestone 1 (Nov 16): 
+# Milestone 1 (Nov 16): 
 
-### State Space:
+
 <!-- ! Trying to model how getting the next move -->
-#### Version 5
+## State Space Model
+
 The state space $\mathcal{S}$ for Carcassonne is the set of unique boards and meeple placements that can be generated over the course of the game.  
 
-*_Note: Due to the game implementation, there are a few changes & limitations that differ from the original game [1]  
+*_Note:  
+Due to the game implementation, there are a few changes &  
+limitations  that differ from the original game [1]  
 (includes: board size limited to 30x30, no starting tile, first tile placed by first player)_
 
 ---
-#### State Model
----
-##### Tiles
-Let $\mathcal{T}=\{t_a,t_b,...,t_z\}$ be the set of all landscape tiles $t$.  
-Each $t$ is a square where each edge, corner, and center contains a feature from the set of features $\mathcal{F}=\{grass, city, road\}$
+### Game Setup
+- Players $P_1,P_2$, each with a supply of 7 meeples
+- A set of 72 landscape tiles $\mathcal{T}$
+- An empty 30x30* board $B$
 
-The tiles $t\in\mathcal{T}$ are non-uniformly distirbuted.  
+
+---
+### Tiles
+Each landscape tile $t\in\mathcal{T}$ is a square with:
+- four edges 
+    - north, south, east, west (enumerated as 'n','s','e','w')
+    - $E=\{n, s, e, w\}$
+- five meeple positions
+    - the four edges and 'center' ('center' represented by 'c')
+    - $P=E +\{c\}$
+- each position $\in P$ displays a feature:
+    - Edge features include: 
+        - {grass, city, road}  
+        - enumerated as $f_1,f_2,f_3$
+    - Other features include:  
+        - {village, monastery, garden, farmhouse, cowshed, watertower, highwaymen, pigsty, stables}
+        - (enumerated as $f_4,...,f_{12}$)
+    - $\mathcal{F}_x$ denotes the features available to x
+    - $\mathcal{F}_E \in \{f_1,f_2,f_3\}$
+    - $\mathcal{F}_P \in \{f_1,f_2,...,f_{12}\}$   <!-- ! double check -->
+
+There are 24 unique tiles types
+
+The 72 tiles $t\in\mathcal{T}$ are non-uniformly distributed.  
+
+---
+
+
+Each Landscape Tile $t\in D$ is a square with:
+- four edges, each side of the square:
+    - $\{n,s,e,w\}$ (ie. north, south, east, west)
+- five subfeature (meeple) locations, the four edges and the center:
+    - $\{n,s,e,w,c\}$ (ie. north, south, east, west, center)
+
+The base game tiles have _ possible features:
+
+Each edge must be placed adjacent to 
+ that may contain up to 5 
+ contains a feature type.  
+We will enumerate the four edges as relative north, south, east, and west.  
+ie. Tile $t$'s edges can be represented as an enumeration:
+<!-- todo: enumerate feature types, so can define Pr[e = f and e=e' | x_{s-1}] or smth? -->
+
 
 Let $D$ be a stack of undrawn tiles $t$ ($D$ will be referred to as the 'pile' or 'deck').  
 $\forall t\in\mathcal{T}$ are pushed onto stack $D$ in a random order.  
@@ -74,20 +118,7 @@ $$
 Let $|B|$ be the set of tiles currently in $B$
 
 ---
-Each Landscape Tile $t\in D$ is a square with:
-- four edges, each side of the square:
-    - $\{n,s,e,w\}$ (ie. north, south, east, west)
-- five subfeature (meeple) locations, the four edges and the center:
-    - $\{n,s,e,w,c\}$ (ie. north, south, east, west, center)
 
-The base game tiles have _ possible features:
-
-Each edge must be placed adjacent to 
- that may contain up to 5 
- contains a feature type.  
-We will enumerate the four edges as relative north, south, east, and west.  
-ie. Tile $t$'s edges can be represented as an enumeration:
-<!-- todo: enumerate feature types, so can define Pr[e = f and e=e' | x_{s-1}] or smth? -->
 $$
 t = 
 \left[
