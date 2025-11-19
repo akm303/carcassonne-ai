@@ -1,4 +1,0 @@
-# GWU - CSCI 6511 AI Algorithms Project
-### Authors:
-
-### Project: 
