@@ -6,7 +6,8 @@ from wingedsheep.carcassonne.objects.actions.action import Action
 from wingedsheep.carcassonne.tile_sets.tile_sets import TileSet
 from wingedsheep.carcassonne.tile_sets.supplementary_rules import SupplementaryRule
 
-from agents import Agent, RandAgent, PlayerAgent, QLearnAgent
+from agents import Agent, RandAgent, QLearnAgent
+from agents.mcts_agent import MCTSAgent
 
 
 def main() -> None:
@@ -21,16 +22,12 @@ def main() -> None:
     # players = [RandAgent(i) for i in range(game.players)]
     # players = [PlayerAgent(0), RandAgent(1)]
 
-    q_agent = QLearnAgent(
-        0,
-        epsilon=0.0,           # exploit only
-        load_path="q_table.pkl"
-    )
-    
+       
     # Q-learning vs random baseline:
     players: list[Agent] = [
-        q_agent,  # or load_path="q_table.pkl"
-        RandAgent(1),
+        RandAgent(0),
+        QLearnAgent(1)
+       
     ]
 
     # --- main game loop ---
