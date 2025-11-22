@@ -10,7 +10,7 @@ class RandAgent(Agent):
     """Agent that selects random moves"""
     def __init__(self, index):
         self.index = index
-        self.type = "Rand"
+        self.type = "Random"
 
     def getAction(self, game: CarcassonneGame):
         """

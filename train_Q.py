@@ -8,6 +8,10 @@ from wingedsheep.carcassonne.tile_sets.tile_sets import TileSet
 from agents import QLearnAgent, RandAgent
 
 
+
+qtable_filepath = 'agents/params/' + "q_table.pkl"
+
+
 def run_episode(q_agent: QLearnAgent, epsilon: float, render: bool = False):
     """
     Run a single self-contained episode:
@@ -42,7 +46,7 @@ def run_episode(q_agent: QLearnAgent, epsilon: float, render: bool = False):
 
 
 def main() -> None:
-    num_episodes = 20  # adjust for your experiments
+    num_episodes = 20  # adjust for experiments
 
     q_agent = QLearnAgent(
         index=0,
@@ -70,7 +74,7 @@ def main() -> None:
         print(f"Episode {ep:3d}: scores = {scores} -> {result}")
 
     # save learned Q-table at the end
-    q_agent.save_q_table("q_table.pkl")
+    q_agent.save_q_table(qtable_filepath)
     print("Saved trained Q-table to q_table.pkl")
 
     print("\nTraining summary vs random:")

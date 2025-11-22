@@ -1,4 +1,4 @@
-import pickle
+import os,pickle
 
 from wingedsheep.carcassonne.carcassonne_game import CarcassonneGame
 from wingedsheep.carcassonne.objects.actions.action import Action
