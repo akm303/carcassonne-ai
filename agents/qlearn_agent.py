@@ -16,17 +16,23 @@ class QLearnAgent(Agent):
     - Reward = change in this player's score since its last move
     """
 
-    # def __init__(self, index, alpha=0.3, gamma=0.9, epsilon=0.2):
-    def __init__(self, index, alpha=0.3, gamma=0.9, epsilon=0.2):
+    def __init__(
+        self,
+        index,
+        params={"alpha": 0.3, "gamma": 0.9, "epsilon": 0.2},
+        param_filepath=None,
+    ):
         self.index = index
         self.type = "Qlearn"
 
         # Q[(state_key, action_key)] -> value
         self.q_table: dict[tuple, float] = {}
+        if param_filepath:
+            self.load_q_table(param_filepath)
 
-        self.alpha = alpha  # learning rate
-        self.gamma = gamma  # discount factor
-        self.epsilon = epsilon  # exploration rate
+        self.alpha = params["alpha"]  # learning rate
+        self.gamma = params["gamma"]  # discount factor
+        self.epsilon = params["epsilon"]  # exploration rate
 
         # memory of previous transition
         self.last_state_key = None
@@ -43,7 +49,6 @@ class QLearnAgent(Agent):
         if next_tile is None:
             tile_name = "NO_TILE"
         else:
-
             tile_name = getattr(next_tile, "name", None)
             if tile_name is None:
                 tile_name = getattr(next_tile, "id", None) or getattr(
@@ -123,7 +128,6 @@ class QLearnAgent(Agent):
 
         # epsilon-greedy action
         if random.random() < self.epsilon:
-
             chosen_action = random.choice(valid_actions)
         else:
             best_q = float("-inf")
@@ -143,7 +147,7 @@ class QLearnAgent(Agent):
         self.last_action_key = self._encode_action(chosen_action)
         self.last_score = current_score
 
-        print(f"Agent({self.type}) {self.index}: {chosen_action}")
+        print(f"{self}: {chosen_action}")
         return chosen_action
 
     def reset_episode(self):

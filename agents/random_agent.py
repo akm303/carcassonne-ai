@@ -18,5 +18,5 @@ class RandAgent(Agent):
         """
         valid_actions: list[Action] = game.get_possible_actions()
         action = random.choice(valid_actions)
-        print(f"Agent({self.type}) {self.index}: {action}")
+        print(f"{self}: {action}")
         return action

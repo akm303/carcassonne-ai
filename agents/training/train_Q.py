@@ -8,8 +8,6 @@ from agents import QLearnAgent, RandAgent
 
 
 AGENT_ID = 0
-QTABLE_FILEPATH = f'agents/params/q_table_{AGENT_ID}.pkl'
-QWDL_FILEPATH = f'agents/params/q_wdl_{AGENT_ID}.pkl' #wld = win/draw/loss
 TRAINING_ITERATIONS = 20
 
 EPISODES = 'episodes'
@@ -55,9 +53,7 @@ def train(episodes,agent_filepath) -> None:
     # init agent
     q_agent = QLearnAgent(
         index=0,
-        alpha=0.3,
-        gamma=0.9,
-        epsilon=0.2,
+        param_filepath=agent_filepath
     )
 
     # load prior q_table/data if it exists
