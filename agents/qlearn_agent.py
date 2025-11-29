@@ -1,9 +1,10 @@
-import pickle
+import os, pickle, random
 
 from wingedsheep.carcassonne.carcassonne_game import CarcassonneGame
 from wingedsheep.carcassonne.objects.actions.action import Action
 
 from .base import Agent
+
 
 # Author: Anvay Paralikar Q_Learning agent implementation
 class QLearnAgent(Agent):
@@ -15,17 +16,23 @@ class QLearnAgent(Agent):
     - Reward = change in this player's score since its last move
     """
 
-    def __init__(self, index, alpha=0.3, gamma=0.9, epsilon=0.2):
+    def __init__(
+        self,
+        index,
+        params={"alpha": 0.3, "gamma": 0.9, "epsilon": 0.2},
+        param_filepath=None,
+    ):
         self.index = index
         self.type = "Qlearn"
 
         # Q[(state_key, action_key)] -> value
         self.q_table: dict[tuple, float] = {}
+        if param_filepath:
+            self.load_q_table(param_filepath)
 
-        
-        self.alpha = alpha      # learning rate
-        self.gamma = gamma      # discount factor
-        self.epsilon = epsilon  # exploration rate
+        self.alpha = params["alpha"]  # learning rate
+        self.gamma = params["gamma"]  # discount factor
+        self.epsilon = params["epsilon"]  # exploration rate
 
         # memory of previous transition
         self.last_state_key = None
@@ -33,21 +40,21 @@ class QLearnAgent(Agent):
         self.last_score = 0
 
     def _encode_state(self, game: CarcassonneGame) -> tuple:
-        
         """Turn the big game state into a compact, hashable key."""
         state = game.state
 
         # 1) tile in hand
         next_tile = getattr(state, "next_tile", None)
-       
+
         if next_tile is None:
             tile_name = "NO_TILE"
         else:
-          
             tile_name = getattr(next_tile, "name", None)
-            if tile_name is None:               
-                tile_name = getattr(next_tile, "id", None) or getattr(next_tile, "tile_id", None)
-            if tile_name is None:               
+            if tile_name is None:
+                tile_name = getattr(next_tile, "id", None) or getattr(
+                    next_tile, "tile_id", None
+                )
+            if tile_name is None:
                 tile_name = type(next_tile).__name__
 
         # 2) score difference bucket
@@ -109,23 +116,18 @@ class QLearnAgent(Agent):
                     self.q_table.get((current_state_key, a_key), 0.0),
                 )
 
-            old_q = self.q_table.get(
-                (self.last_state_key, self.last_action_key), 0.0
-            )
+            old_q = self.q_table.get((self.last_state_key, self.last_action_key), 0.0)
             new_q = (1 - self.alpha) * old_q + self.alpha * (
                 reward + self.gamma * max_future_q
             )
             self.q_table[(self.last_state_key, self.last_action_key)] = new_q
-            
+
             # printing the Q-table size
             if len(self.q_table) % 200 == 0:  # print every 200 updates
                 print(f"[DEBUG] Agent {self.index} Q-table size: {len(self.q_table)}")
-    
-        # epsilon-greedy action
-        import random
 
+        # epsilon-greedy action
         if random.random() < self.epsilon:
-            
             chosen_action = random.choice(valid_actions)
         else:
             best_q = float("-inf")
@@ -145,9 +147,9 @@ class QLearnAgent(Agent):
         self.last_action_key = self._encode_action(chosen_action)
         self.last_score = current_score
 
-        print(f"Agent({self.type}) {self.index}: {chosen_action}")
+        print(f"{self}: {chosen_action}")
         return chosen_action
-    
+
     def reset_episode(self):
         """Clear per-episode memory (but keep learned Q-table)."""
         self.last_state_key = None
@@ -166,4 +168,4 @@ class QLearnAgent(Agent):
             return
         with open(filepath, "rb") as f:
             self.q_table = pickle.load(f)
-        print(f"[INFO] Loaded Q-table from '{filepath}', entries = {len(self.q_table)}") 
+        print(f"[INFO] Loaded Q-table from '{filepath}', entries = {len(self.q_table)}")

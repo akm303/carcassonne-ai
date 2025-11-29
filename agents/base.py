@@ -16,8 +16,12 @@ class Agent:
     def choice(self, game):
         return self.getAction(game)
 
-    def getAction(self, state):
+    def getAction(self, game: CarcassonneGame):
+        """based on game state, return a single action"""
         raise NotImplementedError()
+
+    def __str__(self):
+        return f"P{self.index} ({self.type})"
     
 class PlayerAgent(Agent):
     """Agent that takes human inputs to select next move"""
