@@ -31,16 +31,13 @@ class MCTS:
         self.visualize()
 
     def visualize(self):
-        # BFS print
+        def helper(node: MCTSNode, level: int, src_actions):
+            print(f"{' '*level}Actions: {src_actions} Node: Visits={node.visits}, Wins={node.wins}")
+            for action, child in node.children.items():
+                helper(child, level + 1, action)
+        # DFS print
         print("===========================================")
         print("Tree Visualization:")
-        queue = [(self.root, 0)]
-        while queue:
-            entry = queue.pop(0)
-            current_node = entry[0]
-            level = entry[1]
-            print(f"{' '*level}Node: Visits={current_node.visits}, Wins={current_node.wins}, Children={current_node.children}")
-            for child in current_node.children.values():
-                queue.append((child, level + 1))
+        helper(self.root, 0, None)
         print("===========================================")
 

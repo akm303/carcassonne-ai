@@ -32,13 +32,13 @@ class PointsCollector:
             if city.finished:
                 meeples: [[MeeplePosition]] = CityUtil.find_meeples(game_state=game_state, city=city)
                 meeple_counts_per_player = cls.get_meeple_counts_per_player(meeples)
-                print("City finished. Meeples:", json.dumps(meeple_counts_per_player))
+                # print("City finished. Meeples:", json.dumps(meeple_counts_per_player))
                 if sum(meeple_counts_per_player) == 0:
                     continue
                 winning_player = cls.get_winning_player(meeple_counts_per_player)
                 if winning_player is not None:
                     points = cls.count_city_points(game_state=game_state, city=city)
-                    print(points, "points for player", winning_player)
+                    # print(points, "points for player", winning_player)
                     game_state.scores[winning_player] += points
                 MeepleUtil.remove_meeples(game_state=game_state, meeples=meeples)
 
@@ -48,13 +48,13 @@ class PointsCollector:
             if road.finished:
                 meeples: [[MeeplePosition]] = RoadUtil.find_meeples(game_state=game_state, road=road)
                 meeple_counts_per_player = cls.get_meeple_counts_per_player(meeples)
-                print("Road finished. Meeples:", json.dumps(meeple_counts_per_player))
+                # print("Road finished. Meeples:", json.dumps(meeple_counts_per_player))
                 if sum(meeple_counts_per_player) == 0:
                     continue
                 winning_player = cls.get_winning_player(meeple_counts_per_player)
                 if winning_player is not None:
                     points = cls.count_road_points(game_state=game_state, road=road)
-                    print(points, "points for player", winning_player)
+                    # print(points, "points for player", winning_player)
                     game_state.scores[winning_player] += points
                 MeepleUtil.remove_meeples(game_state=game_state, meeples=meeples)
 
@@ -73,8 +73,8 @@ class PointsCollector:
                 if (tile.chapel or tile.flowers) and meeple_of_player is not None:
                     points = cls.chapel_or_flowers_points(game_state=game_state, coordinate=coordinate)
                     if points == 9:
-                        print("Chapel or flowers finished for player", str(meeple_of_player))
-                        print(points, "points for player", meeple_of_player)
+                        # print("Chapel or flowers finished for player", str(meeple_of_player))
+                        # print(points, "points for player", meeple_of_player)
                         game_state.scores[meeple_of_player] += points
 
                         meeples_per_player = []
