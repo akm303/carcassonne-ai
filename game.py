@@ -2,49 +2,46 @@ import random
 from typing import Optional
 
 from wingedsheep.carcassonne.carcassonne_game import CarcassonneGame
-from wingedsheep.carcassonne.carcassonne_game_state import CarcassonneGameState
 from wingedsheep.carcassonne.objects.actions.action import Action
-from wingedsheep.carcassonne.tile_sets.supplementary_rules import SupplementaryRule
 from wingedsheep.carcassonne.tile_sets.tile_sets import TileSet
+from wingedsheep.carcassonne.tile_sets.supplementary_rules import SupplementaryRule
+
+from agents import Agent, RandAgent, QLearnAgent
+from agents.mcts_agent import MCTSAgent
 
 
-# import menu
-from agents.agent import Agent
-from agents.agent import RandAgent
-from agents.agent import PlayerAgent
-# from agents.agent import MCTSAgent
-# from agents.agent import QLearnAgent
-
-def main():
-
-    #todo: setup menu goes here
-
-    #todo: adjust game init based on setup-menu selections
-    # * select agents to play
+def main() -> None:
+    # --- configure game (you can later hook this up to a UI/menu) ---
     game = CarcassonneGame(
         players=2,
         tile_sets=[TileSet.BASE],
-        supplementary_rules=[],
+        supplementary_rules=[],  # e.g. [SupplementaryRule.ABBOTS, SupplementaryRule.FARMERS]
     )
 
-    # * test game setup (has examples of options)
-    # game = CarcassonneGame(
-    #     players=2,
-    #     tile_sets=[TileSet.BASE, TileSet.THE_RIVER, TileSet.INNS_AND_CATHEDRALS],
-    #     supplementary_rules=[SupplementaryRule.ABBOTS, SupplementaryRule.FARMERS],
-    # )
+    # Example setups:
+    # players = [RandAgent(i) for i in range(game.players)]
+    # players = [PlayerAgent(0), RandAgent(1)]
 
-    #todo: adjust to init agents based on game setup
-    players = [RandAgent(i) for i in range(game.players)] 
+       
+    # Q-learning vs random baseline:
+    players: list[Agent] = [
+        RandAgent(0),
+        QLearnAgent(1)
+       
+    ]
 
-    # game loop
+    # --- main game loop ---
     while not game.is_finished():
         player_id: int = game.get_current_player()
-        playerAgent: Agent = players[player_id]
-        action: Optional[Action] = playerAgent.choice(game)
+        agent: Agent = players[player_id]
+
+        action: Optional[Action] = agent.choice(game)
         if action is not None:
             game.step(player_id, action)
+
         game.render()
+
+    print("Game finished. Final scores:", game.state.scores)
 
 
 if __name__ == "__main__":
