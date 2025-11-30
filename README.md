@@ -61,6 +61,6 @@ while not game.is_finished():
 ```
 
 ## CSCI 6511 Info
-Link to Milestone document: [milestones.md](/agents/milestones.md)  
+Link to Milestone document: [MILESTONES.md](/agents/milestones.md)  
 Linke to Final Report: []  
 Both documents in `agents/` directory
