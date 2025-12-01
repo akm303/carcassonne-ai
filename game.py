@@ -19,6 +19,7 @@ def sort_agents(input, index):
     '''elif input == "Sarsa":
             return SarsaAgent(index)'''
     if input == "Q-Learning":
+        # here we need to add the final filepath of already taught algorithm / same for sarsa
         return QLearnAgent(index, param_filepath='')
     elif input == "MCTS":
         return MCTSAgent(index)
@@ -81,6 +82,8 @@ def main() -> None:
 
         # check if scoreboard is allowed, and if so draw it
         if scoreboard:
+            # since we draw scoreboard outside the render inside of carcassonne_visualiser everything gets deleted after each turn,
+            # which is why it blinks - in order to fix it we need to move this function inside of visualizer.
             drawScoreboard(game, agentClasses)
 
         game.visualiser.canvas.update()
