@@ -13,8 +13,22 @@ from wingedsheep.carcassonne.objects.tile import Tile
 class CarcassonneVisualiser:
 
     meeple_icons = {
-        MeepleType.NORMAL: ["blue_meeple.png", "red_meeple.png", "black_meeple.png", "yellow_meeple.png", "green_meeple.png", "pink_meeple.png"],
-        MeepleType.ABBOT: ["blue_abbot.png", "red_abbot.png", "black_abbot.png", "yellow_abbot.png", "green_abbot.png", "pink_abbot.png"]
+        MeepleType.NORMAL: [
+            "blue_meeple.png",
+            "red_meeple.png",
+            "black_meeple.png",
+            "yellow_meeple.png",
+            "green_meeple.png",
+            "pink_meeple.png",
+        ],
+        MeepleType.ABBOT: [
+            "blue_abbot.png",
+            "red_abbot.png",
+            "black_abbot.png",
+            "yellow_abbot.png",
+            "green_abbot.png",
+            "pink_abbot.png",
+        ],
     }
     tile_size = 60
     meeple_size = 15
@@ -29,7 +43,7 @@ class CarcassonneVisualiser:
         Side.TOP_LEFT: (tile_size / 4, (meeple_size / 2) + 3),
         Side.TOP_RIGHT: ((tile_size / 4) * 3, (meeple_size / 2) + 3),
         Side.BOTTOM_LEFT: (tile_size / 4, tile_size - (meeple_size / 2) - 3),
-        Side.BOTTOM_RIGHT: ((tile_size / 4) * 3, tile_size - (meeple_size / 2) - 3)
+        Side.BOTTOM_RIGHT: ((tile_size / 4) * 3, tile_size - (meeple_size / 2) - 3),
     }
 
     big_meeple_position_offsets = {
@@ -41,19 +55,21 @@ class CarcassonneVisualiser:
         Side.TOP_LEFT: (tile_size / 4, (big_meeple_size / 2) + 3),
         Side.TOP_RIGHT: ((tile_size / 4) * 3, (big_meeple_size / 2) + 3),
         Side.BOTTOM_LEFT: (tile_size / 4, tile_size - (big_meeple_size / 2) - 3),
-        Side.BOTTOM_RIGHT: ((tile_size / 4) * 3, tile_size - (big_meeple_size / 2) - 3)
+        Side.BOTTOM_RIGHT: ((tile_size / 4) * 3, tile_size - (big_meeple_size / 2) - 3),
     }
 
     def __init__(self):
         root = Tk()
-        self.canvas = Canvas(root, width=2300, height=1300, bg='white')
-        self.canvas.pack(fill='both', expand=True)
-        self.images_path = os.path.join(wingedsheep.__path__[0], 'carcassonne', 'resources', 'images')
+        self.canvas = Canvas(root, width=2300, height=1300, bg="white")
+        self.canvas.pack(fill="both", expand=True)
+        self.images_path = os.path.join(
+            wingedsheep.__path__[0], "carcassonne", "resources", "images"
+        )
         self.meeple_image_refs = {}
         self.tile_image_refs = {}
 
     def draw_game_state(self, game_state: CarcassonneGameState):
-        self.canvas.delete('all')
+        self.canvas.delete("all")
         for row_index, row in enumerate(game_state.board):
             for column_index, tile in enumerate(row):
                 tile: Tile
@@ -68,21 +84,38 @@ class CarcassonneVisualiser:
         self.canvas.update()
 
     def __draw_meeple(self, player_index: int, meeple_position: MeeplePosition):
-        image = self.__get_meeple_image(player=player_index, meeple_type=meeple_position.meeple_type)
+        image = self.__get_meeple_image(
+            player=player_index, meeple_type=meeple_position.meeple_type
+        )
 
         if meeple_position.meeple_type == MeepleType.BIG:
-            x = meeple_position.coordinate_with_side.coordinate.column * self.tile_size + self.big_meeple_position_offsets[meeple_position.coordinate_with_side.side][0]
-            y = meeple_position.coordinate_with_side.coordinate.row * self.tile_size + self.big_meeple_position_offsets[meeple_position.coordinate_with_side.side][1]
+            x = (
+                meeple_position.coordinate_with_side.coordinate.column * self.tile_size
+                + self.big_meeple_position_offsets[
+                    meeple_position.coordinate_with_side.side
+                ][0]
+            )
+            y = (
+                meeple_position.coordinate_with_side.coordinate.row * self.tile_size
+                + self.big_meeple_position_offsets[
+                    meeple_position.coordinate_with_side.side
+                ][1]
+            )
         else:
-            x = meeple_position.coordinate_with_side.coordinate.column * self.tile_size + self.meeple_position_offsets[meeple_position.coordinate_with_side.side][0]
-            y = meeple_position.coordinate_with_side.coordinate.row * self.tile_size + self.meeple_position_offsets[meeple_position.coordinate_with_side.side][1]
+            x = (
+                meeple_position.coordinate_with_side.coordinate.column * self.tile_size
+                + self.meeple_position_offsets[
+                    meeple_position.coordinate_with_side.side
+                ][0]
+            )
+            y = (
+                meeple_position.coordinate_with_side.coordinate.row * self.tile_size
+                + self.meeple_position_offsets[
+                    meeple_position.coordinate_with_side.side
+                ][1]
+            )
 
-        self.canvas.create_image(
-            x,
-            y,
-            anchor=CENTER,
-            image=image
-        )
+        self.canvas.create_image(x, y, anchor=CENTER, image=image)
 
     def __flattenAlpha(self, img):
         alpha = img.split()[-1]  # Pull off the alpha layer
@@ -91,7 +124,9 @@ class CarcassonneVisualiser:
         checked = []  # Create a new array to store the cleaned up alpha layer bytes
 
         # Walk through all pixels and set them either to 0 for transparent or 255 for opaque fancy pants
-        transparent = 50  # change to suit your tolerance for what is and is not transparent
+        transparent = (
+            50  # change to suit your tolerance for what is and is not transparent
+        )
 
         p = 0
         for pixel in range(0, len(ab)):
@@ -101,7 +136,7 @@ class CarcassonneVisualiser:
                 checked.append(255)  # Opaque
             p += 1
 
-        mask = Image.frombytes('L', img.size, bytes(checked))
+        mask = Image.frombytes("L", img.size, bytes(checked))
 
         img.putalpha(mask)
 
@@ -114,8 +149,17 @@ class CarcassonneVisualiser:
             photo_image = self.tile_image_refs[reference]
         else:
             abs_file_path = os.path.join(self.images_path, image_filename)
-            image = Image.open(abs_file_path).resize((self.tile_size, self.tile_size), Image.ANTIALIAS).rotate(
-                -90 * tile.turns)
+
+            image = (
+                Image.open(abs_file_path)
+                .resize((self.tile_size, self.tile_size), Image.Resampling.LANCZOS)
+                .rotate(-90 * tile.turns)
+            )
+            # image = (
+            #     Image.open(abs_file_path)
+            #     .resize((self.tile_size, self.tile_size), Image.ANTIALIAS)
+            #     .rotate(-90 * tile.turns)
+            # )
             image = self.__flattenAlpha(image)
             height = image.height
             width = image.width
@@ -124,7 +168,12 @@ class CarcassonneVisualiser:
             image.crop((crop_width, crop_height, crop_width, crop_height))
             photo_image = ImageTk.PhotoImage(image)
         self.tile_image_refs[f"{image_filename}_{str(tile.turns)}"] = photo_image
-        self.canvas.create_image(column_index * self.tile_size, row_index * self.tile_size, anchor=NW, image=photo_image)
+        self.canvas.create_image(
+            column_index * self.tile_size,
+            row_index * self.tile_size,
+            anchor=NW,
+            image=photo_image,
+        )
 
     def __get_meeple_image(self, player: int, meeple_type: MeepleType):
         reference = f"{str(player)}_{str(meeple_type)}"
@@ -141,19 +190,34 @@ class CarcassonneVisualiser:
 
         photo_image = None
         if meeple_type == MeepleType.NORMAL or meeple_type == MeepleType.ABBOT:
-            image = Image.open(abs_file_path).resize((self.meeple_size, self.meeple_size), Image.ANTIALIAS)
+            image = Image.open(abs_file_path).resize(
+                (self.meeple_size, self.meeple_size), Image.Resampling.LANCZOS
+            )
             image = self.__flattenAlpha(image)
             photo_image = ImageTk.PhotoImage(image)
         elif meeple_type == MeepleType.BIG:
-            image = Image.open(abs_file_path).resize((self.big_meeple_size, self.big_meeple_size), Image.ANTIALIAS)
+            image = Image.open(abs_file_path).resize(
+                (self.big_meeple_size, self.big_meeple_size), Image.Resampling.LANCZOS
+            )
             image = self.__flattenAlpha(image)
             photo_image = ImageTk.PhotoImage(image)
         elif meeple_type == MeepleType.FARMER:
-            image = Image.open(abs_file_path).resize((self.meeple_size, self.meeple_size), Image.ANTIALIAS).rotate(-90)
+            image = (
+                Image.open(abs_file_path)
+                .resize((self.meeple_size, self.meeple_size), Image.Resampling.LANCZOS)
+                .rotate(-90)
+            )
             image = self.__flattenAlpha(image)
             photo_image = ImageTk.PhotoImage(image)
         elif meeple_type == MeepleType.BIG_FARMER:
-            image = Image.open(abs_file_path).resize((self.big_meeple_size, self.big_meeple_size), Image.ANTIALIAS).rotate(-90)
+            image = (
+                Image.open(abs_file_path)
+                .resize(
+                    (self.big_meeple_size, self.big_meeple_size),
+                    Image.Resampling.LANCZOS,
+                )
+                .rotate(-90)
+            )
             image = self.__flattenAlpha(image)
             photo_image = ImageTk.PhotoImage(image)
         else:
