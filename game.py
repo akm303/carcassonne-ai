@@ -26,8 +26,7 @@ def main() -> None:
     # Q-learning vs random baseline:
     players: list[Agent] = [
         RandAgent(0),
-        QLearnAgent(1)
-       
+        QLearnAgent(1,param_filepath='agents/params/q_table_0.pkl')
     ]
 
     # --- main game loop ---

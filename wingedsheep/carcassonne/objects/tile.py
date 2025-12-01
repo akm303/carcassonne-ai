@@ -123,3 +123,14 @@ class Tile:
             unplayable_sides=list(map(lambda x: SideModificationUtil.turn_side(x, times), self.unplayable_sides)),
             image=self.image
         )
+
+    def __hash__(self):
+        if self.image is not None:
+            return self.image.__hash__()
+        else:
+            return super().__hash__()
+
+    def __eq__(self, other):
+        if not isinstance(other, Tile):
+            return False
+        return self.image == other.image

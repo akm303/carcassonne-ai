@@ -1,7 +1,6 @@
 # Author: Anvay Paralikar – Q-learning agent training script
 
-from __future__ import annotations
-
+import os, pickle
 from wingedsheep.carcassonne.carcassonne_game import CarcassonneGame
 from wingedsheep.carcassonne.tile_sets.tile_sets import TileSet
 
@@ -41,20 +40,20 @@ def run_episode(q_agent: QLearnAgent, epsilon: float, render: bool = False):
     return game.state.scores  # [score_Q, score_rand]
 
 
-def main() -> None:
-    num_episodes = 20  # adjust for your experiments
-
+def train(episodes,agent_filepath) -> None:
+    # init agent
     q_agent = QLearnAgent(
         index=0,
-        alpha=0.3,
-        gamma=0.9,
-        epsilon=0.2,
+        param_filepath=agent_filepath
     )
 
-    q_wins = 0
-    draws = 0
+    # load prior q_table/data if it exists
+    q_agent.load_q_table(agent_filepath)
 
-    for ep in range(1, num_episodes + 1):
+    q_wins = 0
+    q_draws = 0
+
+    for ep in range(1, episodes + 1):
         scores = run_episode(q_agent, epsilon=0.2, render=False)
         q_score, rand_score = scores
 
@@ -64,20 +63,20 @@ def main() -> None:
         elif q_score < rand_score:
             result = "Rand-win"
         else:
-            draws += 1
+            q_draws += 1
             result = "Draw"
 
         print(f"Episode {ep:3d}: scores = {scores} -> {result}")
+    
+    q_losses = episodes - q_wins - q_draws
+
 
     # save learned Q-table at the end
-    q_agent.save_q_table("q_table.pkl")
+    q_agent.save_q_table(agent_filepath)
     print("Saved trained Q-table to q_table.pkl")
 
-    print("\nTraining summary vs random:")
-    print(f"  Q-learning wins : {q_wins}/{num_episodes}")
-    print(f"  Draws           : {draws}/{num_episodes}")
-    print(f"  Random wins     : {num_episodes - q_wins - draws}")
-
+    # return wdl for current training run
+    return q_wins,q_draws,q_losses
 
 if __name__ == "__main__":
-    main()
+    train()

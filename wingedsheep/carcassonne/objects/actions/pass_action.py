@@ -6,4 +6,10 @@ class PassAction(Action):
         return "pass"
 
     def __repr__(self):
-        return "PassAction()"
+        return "P()"
+
+    def __eq__(self, other):
+        return isinstance(other, PassAction)
+
+    def __hash__(self):
+        return hash("PassAction")

@@ -10,7 +10,7 @@ class MCTSAgent(Agent):
     """Agent using Monte-Carlo Tree Search"""
     def __init__(self, index, iterations=150):
         self.index = index
-        self.type = "MCTS"
+        self.type = "MCTSch"
         self.iterations = iterations
 
     def getAction(self, game: CarcassonneGame) -> Action | None:
