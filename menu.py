@@ -102,3 +102,5 @@ class CarcassonneMenu:
         if not self.input["agents"]:
             return None
         return self.input
+    
+

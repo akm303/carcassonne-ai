@@ -13,6 +13,8 @@ from menu import CarcassonneMenu
 
 import time
 
+from scoreboard import drawScoreboard
+
 def sort_agents(input, index):
     '''elif input == "Sarsa":
             return SarsaAgent(index)'''
@@ -74,7 +76,14 @@ def main() -> None:
         if speed > 0:
             time.sleep(speed)
 
+        # draw the board
         game.render()
+
+        # check if scoreboard is allowed, and if so draw it
+        if scoreboard:
+            drawScoreboard(game, agentClasses)
+
+        game.visualiser.canvas.update()
 
         player_id: int = game.get_current_player()
         agent: Agent = agentClasses[player_id]
@@ -84,7 +93,9 @@ def main() -> None:
             game.step(player_id, action)
 
         game.render()
-
+        if scoreboard:
+            drawScoreboard(game, agentClasses)
+        game.visualiser.canvas.update()
     print("Game finished. Final scores:", game.state.scores)
 
 
