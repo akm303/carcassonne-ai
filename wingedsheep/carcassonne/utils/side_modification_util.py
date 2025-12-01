@@ -3,38 +3,37 @@ from wingedsheep.carcassonne.objects.farmer_connection import FarmerConnection
 from wingedsheep.carcassonne.objects.farmer_side import FarmerSide
 from wingedsheep.carcassonne.objects.side import Side
 
+SIDE_ORDER = {
+    Side.TOP: Side.RIGHT,
+    Side.RIGHT: Side.BOTTOM,
+    Side.BOTTOM: Side.LEFT,
+    Side.LEFT: Side.TOP,
+    Side.CENTER: Side.CENTER,
+    Side.TOP_LEFT: Side.TOP_RIGHT,
+    Side.TOP_RIGHT: Side.BOTTOM_RIGHT,
+    Side.BOTTOM_RIGHT: Side.BOTTOM_LEFT,
+    Side.BOTTOM_LEFT: Side.TOP_LEFT
+}
+
+FARMER_SIDE_ORDER = {
+    FarmerSide.TLL: FarmerSide.TRR,
+    FarmerSide.TLT: FarmerSide.BLB,
+    FarmerSide.TRT: FarmerSide.BRR,
+    FarmerSide.TRR: FarmerSide.TLL,
+    FarmerSide.BRR: FarmerSide.BLL,
+    FarmerSide.BRB: FarmerSide.TRT,
+    FarmerSide.BLB: FarmerSide.TLT,
+    FarmerSide.BLL: FarmerSide.BRR
+}
+
+
 class SideModificationUtil:
 
     @classmethod
-    def turn_side(cls, side: Side, times: int) -> Side:
-        result: Side
-
-        if times == 0:
-            return side
-
-        if side == Side.TOP:
-            result = Side.RIGHT
-        elif side == Side.RIGHT:
-            result = Side.BOTTOM
-        elif side == Side.BOTTOM:
-            result = Side.LEFT
-        elif side == Side.LEFT:
-            result = Side.TOP
-        elif side == Side.CENTER:
-            result = Side.CENTER
-        elif side == Side.TOP_LEFT:
-            result = Side.TOP_RIGHT
-        elif side == Side.TOP_RIGHT:
-            result = Side.BOTTOM_RIGHT
-        elif side == Side.BOTTOM_RIGHT:
-            result = Side.BOTTOM_LEFT
-        else:  # side == Side.BOTTOM_LEFT
-            result = Side.TOP_LEFT
-
-        if times > 1:
-            return cls.turn_side(result, times - 1)
-
-        return result
+    def turn_side(cls, source_side: Side, times: int) -> Side:
+        for _ in range(times):
+            source_side = SIDE_ORDER[source_side]
+        return source_side
 
     @classmethod
     def opposite_side(cls, side: Side):
@@ -45,33 +44,10 @@ class SideModificationUtil:
         return list(map(lambda side: cls.turn_side(side, times), sides))
 
     @classmethod
-    def turn_farmer_side(cls, farmer_side: FarmerSide, times: int) -> FarmerSide:
-        result: FarmerSide
-
-        if times == 0:
-            return farmer_side
-
-        if farmer_side == FarmerSide.TLL:
-            result = FarmerSide.TRT
-        elif farmer_side == FarmerSide.TLT:
-            result = FarmerSide.TRR
-        elif farmer_side == FarmerSide.TRT:
-            result = FarmerSide.BRR
-        elif farmer_side == FarmerSide.TRR:
-            result = FarmerSide.BRB
-        elif farmer_side == FarmerSide.BRR:
-            result = FarmerSide.BLB
-        elif farmer_side == FarmerSide.BRB:
-            result = FarmerSide.BLL
-        elif farmer_side == FarmerSide.BLB:
-            result = FarmerSide.TLL
-        else:  # farmer_side == FarmerSide.BLL:
-            result = FarmerSide.TLT
-
-        if times > 1:
-            return cls.turn_farmer_side(result, times - 1)
-
-        return result
+    def turn_farmer_side(cls, source_farmer_side: FarmerSide, times: int) -> FarmerSide:
+        for _ in range(times):
+            source_farmer_side = FARMER_SIDE_ORDER[source_farmer_side]
+        return source_farmer_side
 
     @classmethod
     def turn_farmer_sides(cls, farmer_sides: [FarmerSide], times: int) -> [FarmerSide]:
@@ -79,29 +55,18 @@ class SideModificationUtil:
 
     @classmethod
     def opposite_farmer_side(cls, farmer_side: FarmerSide) -> FarmerSide:
-        if farmer_side == FarmerSide.TLL:
-            return FarmerSide.TRR
-        elif farmer_side == FarmerSide.TLT:
-            return FarmerSide.BLB
-        elif farmer_side == FarmerSide.TRT:
-            return FarmerSide.BRR
-        elif farmer_side == FarmerSide.TRR:
-            return FarmerSide.TLL
-        elif farmer_side == FarmerSide.BRR:
-            return FarmerSide.BLL
-        elif farmer_side == FarmerSide.BRB:
-            return FarmerSide.TRT
-        elif farmer_side == FarmerSide.BLB:
-            return FarmerSide.TLT
-        else:  # farmer_side == FarmerSide.BLL:
-            return FarmerSide.BRR
+        return FARMER_SIDE_ORDER[farmer_side]
 
     @classmethod
     def turn_farmer_connection(cls, farmer_connection: FarmerConnection, times: int):
         return FarmerConnection(
+            # list(map(lambda side: cls.turn_side(side, times), farmer_connection.farmer_positions))
             farmer_positions=cls.turn_sides(farmer_connection.farmer_positions, times),
+            # farmer_positions=list(map(lambda t_side: cls.turn_side(t_side, times), farmer_connection.farmer_positions)),
             tile_connections=cls.turn_farmer_sides(farmer_connection.tile_connections, times),
+            # tile_connections=list(map(lambda f_side: cls.turn_farmer_side(f_side, times), farmer_connection.tile_connections)),
             city_sides=cls.turn_sides(farmer_connection.city_sides, times)
+            # city_sides=list(map(lambda c_side: cls.turn_side(c_side, times), farmer_connection.city_sides))
         )
 
     @classmethod

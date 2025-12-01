@@ -147,7 +147,8 @@ class QLearnAgent(Agent):
         self.last_action_key = self._encode_action(chosen_action)
         self.last_score = current_score
 
-        print(f"{self}: {chosen_action}")
+        # TODO: I moved this outside to make it a common feature, we can remove this line later
+        # print(f"{self}: {chosen_action}")
         return chosen_action
 
     def reset_episode(self):

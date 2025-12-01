@@ -10,9 +10,10 @@ class TileAction(Action):
         self.tile_rotations = tile_rotations
 
     def __repr__(self):
-        return f"T({self.coordinate}, {self.tile_rotations})"
+        return f"T({self.tile.description}, {self.coordinate}, {self.tile_rotations})"
+
     def __str__(self):
-        return str((self.tile.description, str(self.coordinate), self.tile_rotations))
+        return f"T({self.tile.description}, {self.coordinate}, {self.tile_rotations})"
 
     def __eq__(self, other):
         if not isinstance(other, TileAction):

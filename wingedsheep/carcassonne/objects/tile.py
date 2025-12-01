@@ -13,6 +13,8 @@ np.set_printoptions(suppress=True, linewidth=np.nan, threshold=sys.maxsize)
 
 
 class Tile:
+    _turn_cache = {}
+
     def __init__(self,
                  description: str = "",
                  turns: int = 0,
@@ -108,7 +110,12 @@ class Tile:
         return json.dumps(self.to_json(), indent=2)
 
     def turn(self, times: int):
-        return Tile(
+        if times % 4 == 0:
+            return self
+        t_times = times % 4
+        if (self.image, t_times) in Tile._turn_cache:
+            return Tile._turn_cache[(self.image, t_times)]
+        Tile._turn_cache[(self.image, t_times)] = Tile(
             description=self.description,
             turns=times,
             road=list(map(lambda x: SideModificationUtil.turn_connection(x, times), self.road)),
@@ -123,6 +130,8 @@ class Tile:
             unplayable_sides=list(map(lambda x: SideModificationUtil.turn_side(x, times), self.unplayable_sides)),
             image=self.image
         )
+
+        return Tile._turn_cache[(self.image, times)]
 
     def __hash__(self):
         if self.image is not None:
