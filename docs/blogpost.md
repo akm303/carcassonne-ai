@@ -7,8 +7,19 @@
 - Ari Majumdar
 
 ---
+### Project Proposal
+[Link to Proposal (Google Docs)](https://docs.google.com/document/d/1PEDPkamepkVnma3u2gy3hDgGm40ObsuCCUwDg2AMZo8/edit?usp=sharing)
+
+
+### Project Setup/Run:
+- Setup and running instructions in [README.md](../README.md) at root level
+- Documents uses Markdown with KaTeX math rendering.  
+Use a viewer that supports math rendering to see formulas correctly.
+
+
+---
 ## Motivation
-Carcassonne is a game with an intractibly large state space. 
+Carcassonne is a game with an intractibly large state space.  
 The game rules and pieces are defined here: [Carcassonne - base game](https://wikicarpedia.com/car/Base_game)
 
 
@@ -28,7 +39,7 @@ A bachelor's thesis working on improving the performance of the MCTS algorithms 
 The design and implementation document written by the author of the game engine we are using. Provided insight on how the game and state space were modeled, as well as some differences between the original game and the implementation.
 
 ## State Space
-Defined here: [milestone 1](../agents/milestones.md)
+Defined here: [milestone 1](../docs/statespace.md)
 
 <!-- ## Solution Method -->
 

@@ -1,28 +1,10 @@
-# GWU - CSCI 6511 AI Algorithms Project
-### Group:
-- Keith Zhang
-- Anvay Paralikar
-- Alex Frolov
-- Ari Majumdar
-
----
-This document is formatted to be read by a markdown interpreter
-
-### [Link to Proposal (Google Docs)](https://docs.google.com/document/d/1PEDPkamepkVnma3u2gy3hDgGm40ObsuCCUwDg2AMZo8/edit?usp=sharing)
-
-### Project Setup/Run:
-- Setup instructions in [README.md](../README.md) (at root level)
-- This document uses Markdown with KaTeX math.  
-Use a viewer that supports math rendering to see formulas correctly.
-
-
----
+# State Space Definition
 ---
 *_Note:  
 Due to the game implementation, there are a few changes & limitations that differ from the original game [1]   
 This includes: board size limited to 30x30, no starting tile, first tile placed by first player_
 
-
+---
 ## Game Description
 Carcassone is a turn-based tile-placement game.  
 Though the game allows for 2-5 players and game  
@@ -44,7 +26,7 @@ observe the current board and tile, but not what tiles remain in the deck.
 
 
 ---
-## State Space Model
+## Model
 The state space $\mathcal{S}$ for Carcassonne is the set of unique boards  
 (including both tile and meeple placements) that can be  
 generated over the course of the game.  
@@ -334,18 +316,6 @@ ie. Both players observe from game state $x_s$,
 - the board state ($B_s$)
 - the current tile ($t_s$)
 
----
-
-
-
-### Milestone 2: 
-#### State Space Implementation:
-The state space was implemented in the original project, which provided methods for accessing the game state, retrieving legal actions, and applying those actions.
-
-As such, our focus was on implementing agents.
-
-Our original goal was to implement an agent to utilize the Monte Carlo Tree Search.
-
 
 
 
@@ -355,9 +325,7 @@ Our original goal was to implement an agent to utilize the Monte Carlo Tree Sear
 Carcassonne Implementation:
 - [1] (https://wingedsheep.com/programming-carcassonne/)
 
-Polyominoes:
+Modeling:
 - [2] (https://www.math.cmu.edu/~bkell/21110-2010s/polyominoes.html)
 - [3] (https://epubs.siam.org/doi/10.1137/1.9781611977929.10)
-
-Markov Modeling:
 - [4] (https://ml-lectures.org/docs/reinforcement_learning/ml_reinforcement-learning-2.html)
