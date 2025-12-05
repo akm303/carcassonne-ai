@@ -16,6 +16,12 @@
 - Documents uses Markdown with KaTeX math rendering.  
 Use a viewer that supports math rendering to see formulas correctly.
 
+- Software requirements
+    - wip
+- Setup instructions
+    - setup instructions: [README.md](../README.md)
+    - running instructions: (wip)
+
 
 ---
 ## Motivation
@@ -52,17 +58,6 @@ Defined here: [milestone 1](../docs/statespace.md)
 Game implemented by Wingedsheep (details on design and implementation [here](https://wingedsheep.com/programming-carcassonne/))  
 Basic Agent design inspired by Berkeley CS188 Pacman AI Project Implementation ([course page](https://inst.eecs.berkeley.edu/~cs188/fa25/)).
 
-
-
-
-## Evaluation
-- Results
-
-## Reproducibility
-- Software requirements
-- Hardware requirements
-- Setup instructions
-- Data links
 
 ## Team Contributions
 - Keith Zhang:
