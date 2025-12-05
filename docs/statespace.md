@@ -1,54 +1,43 @@
-# GWU - CSCI 6511 AI Algorithms Project
-### Group:
-- Keith Zhang
-- Anvay Paralikar
-- Alex Frolov
-- Ari Majumdar
-
-### [Link to Proposal (Google Docs)](https://docs.google.com/document/d/1PEDPkamepkVnma3u2gy3hDgGm40ObsuCCUwDg2AMZo8/edit?usp=sharing)
-
-### Project Setup/Run:
-- Setup instructions in [README.md](../README.md) (at root level)
-
+# State Space Definition
+---
+*_Note:  
+Due to the game implementation, there are a few changes & limitations that differ from the original game [1]   
+This includes: board size limited to 30x30, no starting tile, first tile placed by first player_
 
 ---
----
-
-## Game
+## Game Description
 Carcassone is a turn-based tile-placement game.  
 Though the game allows for 2-5 players and game  
 expansions, we will be focusing on 2 player games  
 with a base set of landscape tiles and non-farmer meeples.  
 
-- 1: The game starts with a starting tile, $t_0$, placed on the board.
+- 1: The game starts with an empty board and a set of 72 tiles
 - 2: On each player’s turn, they will:
-- 2.1: expand the board by placing a square tile randomly drawn from  
-       a set of 72 tiles, and placing it on the existing board such that:
-    - at least one edge is in contact with a tile  
-      on the board.
-    - all tiles adjacent to the newly placed tile  
-      share a feature type along shared edges.
-- 2.2: The player will then optionally place a Meeple on that tile,  
-       if the feature does not currently have a meeple on it.
-- 3: A game ends once all 72 tiles are placed.
+    - 2.1: expand the board landscape by drawing and placing a  
+           randomly selected square tile (the *current tile*) such that:  
+        - at least one tile edge is in contact with the board
+        - all adjacent tiles share a feature type
+    - 2.2: (optionally) place a Meeple on a feature of the *current tile*.  
+       if the extended feature does not currently have a meeple on it.
+- 3: A game ends once all 72 tiles are placed, and points are counted.
+
+The game is partially observable to both players, who can both fully  
+observe the current board and tile, but not what tiles remain in the deck.  
+
 
 ---
-# Milestone 1 (Nov 16): 
-## State Space Model
-The state space $\mathcal{S}$ for Carcassonne is the set of unique boards (including both  
-tile and meeple placements) that can be generated over the course of the game.  
+## Model
+The state space $\mathcal{S}$ for Carcassonne is the set of unique boards  
+(including both tile and meeple placements) that can be  
+generated over the course of the game.  
 
-The environment implementation generates a state consisting of the current tile to be  
-placed, and a set of "feature planes" [1] compiled to represent:
+The environment implementation generates a state consisting of the current  
+tile to be placed, and a set of "feature planes" [1] compiled to represent:
 - the current board
 - all tiles currently on the board
 - all meeple placements on those tiles. 
 
 We use the state for our state-space model, but describe it mathematically below.
-
-*_Note:  
-Due to the game implementation, there are a few changes & limitations that differ from the original game [1]   
-This includes: board size limited to 30x30, no starting tile, first tile placed by first player_
 
 
 ---
@@ -62,14 +51,14 @@ tile types, but constant and consistent across runs of the base game)
 ---
 ### Game Objects
 We define the following objects that make up a game state, and define them below:
-- Tiles
-- Deck (of tiles)
-- Board
-- Meeple
+- *Tiles*
+- *Deck* (of tiles)
+- *Board*
+- *Meeple*
 
 
 ---
-#### Tiles
+#### *Tiles*
 Each landscape tile $t\in\mathcal{T}$ is a square with:
 - Five positions, four of which are edges
     - $E=\{n, s, e, w\}$
@@ -110,13 +99,14 @@ Each landscape tile $t\in\mathcal{T}$ is a square with:
 - Features are created and expanded by placing tiles that connect positions of shared feature types.
     - A feature $F=\{p_1,p_2,...,p_n\}$ is a run of connected positions that all share the same feature type.  
     ie. $\forall p,p'\in F, p_f=p_f'=f$.
+    - $F_{p,t_i}$ refers to the Feature expanded by postion p on tile $t_i$
 
 - Each tile may be rotated for placement.
     - Let $rotate(t,\theta)$ be a function that rotates $t$ by $\theta\in\{0º, 90º, 180º, 270º\}$  
 
 
 ---
-#### Deck
+#### *Deck*
 Let $D$ be a queue of undrawn tiles  
 $D$ will be referred to as the 'pile' or 'deck'.  
 $D$ has methods:
@@ -128,7 +118,7 @@ $t\in D=\{t_1,t_2,...,t_{72}\}$ where $t_s$ is the tile drawn at step $s$.
 
 
 ---
-#### Board
+#### *Board*
 Let $B$ represent the Board:
 - $B$ is a 30x30 matrix *
 - Let $i,j$ be indices such that $\forall i,j: 1 ≤ i,j ≤ 30$
@@ -152,11 +142,11 @@ B=
 \end{bmatrix}
 $$
 Let $tiles(B)$ return the set of tiles currently in $B$  
-Let $|B|$ return the number of tiles currently in $B$
+Let $|B|$ return the number of tiles currently in $B$  
 
 
 ---
-#### Meeple
+#### *Meeple*
 Meeples provide a point-multiplying mechanism in Carcassonne.  
 After a tile is placed, the player has the option to also place  
 a meeple on a feature of that tile, as long as it is the first  
@@ -181,13 +171,12 @@ $p\in t_{p}$ at time step $s$. An unplaced meeple is denoted as $m\in M$.
 
 
 ---
-### State Space ($\mathbb X$)
-#### Game States
+### States: *(State Space $\mathbb X$)*
 Let $\mathbb X$ be the state space of the Carcassonne base game.  
-At each step $s$, where $1 ≤ s ≤ 72$:  
-We define the current game state $x_s\in\mathbb X$ as an aggregate of the object states $x_s = [\mathbb P',B_s, D_s]$, where:
+At each step $s$, where $1 ≤ s ≤ 72$, we define the current game state $x_s\in\mathbb X$  
+as an aggregate of the object states $x_s = [\mathbb P',B_s, D_s]$, where:
 
-- $\mathbb P'$ denotes the current player (player whose turn it is on step $s$)
+- $\mathbb P'$ denotes the current player (player whose turn it is on step $s$, let $\mathbb P''$ denote the other player)
     - $\mathbb P' = \mathbb P_{(s-1)\mod 2}$ in a two player game
     - $\mathbb P_M'$ denotes that player's set of unplaced meeples
     - ie.
@@ -211,7 +200,7 @@ _*Note: because $t_s$ is implicitly defined in $D_s$, its not included separatel
 
 
 ---
-#### Initial State (ie. $s=1$):
+#### *Initial State* (ie. $s=1$):
 $x_1$: the following assignments are made:
 - $\mathbb P'=\mathbb P_0$ 
 - $D_1=D$ 
@@ -233,11 +222,11 @@ ie. & tiles(B_1)=\{\} \\
 \end{matrix}
 \end{matrix}
 $$
-$\therefore x_1 = [\mathbb P'=\mathbb P_0, B_1,D_1=D]$
+$\therefore x_1 = [\mathbb P', B_1,D_1] = [\mathbb P_0, B_1, D]$
 
 
 ---
-### Action space ($\mathcal A$)
+### Actions *(Action Space $\mathcal A$)*
 The action space $\mathcal A$ is defined as the set of all possible tile and meeple placements  
 for $t_s,B_s\in x_s$ that produces a legal $B_{s+1}\in x_{s+1}$  
 (ie. producing a valid transition from $x_s \to x_{s+1}$).
@@ -286,43 +275,46 @@ $p_f \cup features\_with\_meeple(B,t_s)=\empty$.
 (ie. the feature $f$ at position $p\in t^p_s$ does not extend a feature that currently has a meeple)
 
 ---
-<!-- ###### Version 2 of legal_meeple_placements function definition
-Let function $legal\_meeple\_placements(B_s,t_s)$ be a function that returns all legal meeple placements $m_s$:
+### Transition *(Transition Function $T$)*
+Transition function $T: \mathbb{X}\times\mathcal{A} \rightarrow \mathbb{X}$  
+for a state $x_s=[\mathbb{P}',B_s,D_s]$  
+and action $a_s=((b_{i,j},\theta),p)$  
+the next state is:  
+$x_{s+1}=T(x_s,a_s)=[\mathbb{P}'',B_{s+1},D_{s+1}]$
+
+Where:
 $$
-m_s = 
+B_{s+1} = 
 \begin{cases}
-None \\
-\text{all valid positions $p\in t^p_s$ where assigning $p=m_s$}\\
-\text{ won't conflict with $m_i$ ($1 ≤ i ≤ s-1)$}
-\end{cases}
-$$ -->
-
----
-
----
-<!-- ##### (old version - only get legal actions, rather than check for validity) 
-Let $legal\_board\_placements(B_s,t_s)$ be a function that returns all valid board positions $b_{ij}\in B_s$ and rotations $\theta\in\{0º, 90º, 180º, 270º\}$ on $t_s$ such that assigning $b_{i,j}=rotate(t_s,\theta)$ results in a valid board $B_{s+1}$
-
-Let $legal\_meeple\_placements(B_s,t_s)$ be a function that returns all legal meeple placements $m_s$:
+b_{x,y}\in B_s & \text{ if } (x,y) ≠ (i,j) \\
+b_{i,j}=rotate(t_s,\theta) & \text{otherwise} 
+\end{cases} \\
 $$
-m_s = 
+
+
+$$
+\mathbb P'_M = 
 \begin{cases}
-None \\
-\text{all valid tile positions $p\in t^p_s$ on which assigning $p=m_s$ results in a valid board $B_{s+1}$}
+\mathbb P'_M - \{m\} & \text{if meeple $m$ placed} \\
+\mathbb P'_M & \text{if no meeple placed}
 \end{cases}
-$$ -->
+$$
+
+$$
+\begin{matrix}
+D_{s+1} &=& D_s - \{t_s\} \\
+t_{s+1} &=& D_{s+1}.next() \\
+\end{matrix}
+$$
+
 
 ---
-
-
-
-### Milestone 2: 
-#### State Space Implementation:
-The state space was implemented in the original project, which provided methods for accessing the game state, retrieving legal actions, and applying those actions.
-
-As such, our focus was on implementing agents.
-
-Our original goal was to implement an agent to utilize the Monte Carlo Tree Search.
+### Observations (Function $O$)
+Observation $O(x_s)=(\mathbb P',B_s,t_s)$  
+ie. Both players observe from game state $x_s$,  
+- the current player ($P'$),  
+- the board state ($B_s$)
+- the current tile ($t_s$)
 
 
 
@@ -333,9 +325,7 @@ Our original goal was to implement an agent to utilize the Monte Carlo Tree Sear
 Carcassonne Implementation:
 - [1] (https://wingedsheep.com/programming-carcassonne/)
 
-Polyominoes:
+Modeling:
 - [2] (https://www.math.cmu.edu/~bkell/21110-2010s/polyominoes.html)
 - [3] (https://epubs.siam.org/doi/10.1137/1.9781611977929.10)
-
-Markov Modeling:
 - [4] (https://ml-lectures.org/docs/reinforcement_learning/ml_reinforcement-learning-2.html)
