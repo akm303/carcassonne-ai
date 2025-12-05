@@ -24,7 +24,7 @@ Updated for python 3.11.5
 python -m venv venv 
 
 # activates local environment
-source .venv/bin/activate
+source venv/bin/activate
 
 # installs required packages (numpy & Pillow)
 pip install -r requirements.txt
