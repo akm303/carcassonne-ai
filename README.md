@@ -17,7 +17,7 @@ Carcassonne implementation in python
 Updated for python 3.11.5
 
 * Clone the project
-* Go to the project folder
+* Navigate to the project folder
 * Run the following: 
 ```sh
 # sets up local environment

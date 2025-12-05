@@ -69,12 +69,11 @@ Basic Agent design inspired by Berkeley CS188 Pacman AI Project Implementation (
     - MCTS implementation
     - Major game-engine QoL improvements & optimizations
 - Anvay Paralikar
-    - Q-Learning implementation
+    - Q-Learning & Sarsa($\lambda$) implementation
     - Project structuring & improvements
 - Alex Frolov
-    - Sarsa implementation (based on Q-Learning implementation)
+    - Sarsa & Sarsa($\lambda$) implementation
     - Menu & UI implementation and related game-engine QoL improvements
-    - Inclusion of human player (wip)
 - Ari Majumdar
     - project setup and structuring
     - Base agent implementation (including random-choice agent)
