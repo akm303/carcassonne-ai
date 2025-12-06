@@ -10,10 +10,10 @@ class MeepleAction(Action):
         self.remove = remove
 
     def __repr__(self):
-        return f"M({self.meeple_type}, {self.coordinate_with_side})"
+        return f"M({self.meeple_type}, {self.coordinate_with_side} remove? {self.remove})"
 
     def __str__(self):
-        return str((self.meeple_type.name, str(self.coordinate_with_side), f"remove? {self.remove}"))
+        return f"M({self.meeple_type}, {self.coordinate_with_side} remove? {self.remove})"
 
     def __eq__(self, other):
         if not isinstance(other, MeepleAction):
