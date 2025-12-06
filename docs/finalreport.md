@@ -47,7 +47,7 @@ The design and implementation document written by the author of the game engine 
 ## State Space
 Defined here: [milestone 1](../docs/statespace.md)
 
-<!-- ## Solution Method -->
+
 
 ## Implementation
 - Source Code: [(`github repo`)](https://github.com/akm303/carcassonne-ai)
@@ -56,22 +56,31 @@ Defined here: [milestone 1](../docs/statespace.md)
 
 ## Design
 Game implemented by Wingedsheep (details on design and implementation [here](https://wingedsheep.com/programming-carcassonne/))  
-Basic Agent design inspired by Berkeley CS188 Pacman AI Project Implementation ([course page](https://inst.eecs.berkeley.edu/~cs188/fa25/)).
+Basic Agent design and implementation details [here](agents.md)
+
 
 
 ## Team Contributions
 - Keith Zhang:
-    - MCTS implementation
-    - Major game-engine QoL improvements & optimizations
+    - agent design & implementation
+        - MCTS agent
+    - Game-engine functional optimizations
 - Anvay Paralikar
-    - Q-Learning & Sarsa($\lambda$) implementation
-    - Project structuring & improvements
+    - agent design & implementation
+        - Q-Learning
+        - Sarsa($\lambda$)
+    - Project structuring & architectural improvements
 - Alex Frolov
-    - Sarsa & Sarsa($\lambda$) implementation
-    - Menu & UI implementation and related game-engine QoL improvements
+    - agent design & implementation
+        - Sarsa
+        - Sarsa($\lambda$)
+    - Menu & UI implementation 
+    - Game-engine QoL improvements
 - Ari Majumdar
-    - project setup and structuring
-    - Base agent implementation (including random-choice agent)
+    - project setup, structure, and architecture
+    - agent design & implementation
+        - abstract agent
+        - stochastic agent
     - Reports, Milestones, and Group Coordination
-    - Minor game engine QoL improvements
+    - Game-engine QoL improvements
 
