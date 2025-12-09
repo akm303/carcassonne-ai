@@ -10,7 +10,9 @@
 *Note regarding Documentation*
 - Project documentation use Markdown with KaTeX math rendering.  
   Use a viewer that supports math rendering to see formulas correctly.  
-  eg. github's built in markdown viewer
+  eg. VS-Code's default Markdown Viewer
+  *note, currently porting to work using github's built in markdown viewer, which uses Mathjax instead of KaTeX.  
+  Currently, Matrix and font-based rendering broken on github's default markdown viewere*
 
 ---
 ### Project Document Links
