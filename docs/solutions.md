@@ -19,20 +19,37 @@ For our project we implemented several agents that can be used to play the game:
 - Sarsa($\lambda$) Agent    [`(sarsa_lambda_agent.py)`](../agent/sarsa_lambda_agent.py`)
 
 Our agents fall into two categories:
-- Non-Learning Agents (ie. Stochastic and MCTS agents)
-- Learning Agents (ie. Q-learning, Sarsa, and Sarsa($\lambda$) agents) 
+- Non-Learning Agents (ie. Random and MCTS agents)
+- Reinforcement Learning Agents (ie. Q-learning, Sarsa, and Sarsa($\lambda$) agents)
 
 
 ## 2. How to Use Agents
 #### 1. Training
-Learning-based agents () must first be trained. 
-To do so, follow this process:
-1. adjust `train.py`
-```py
-# 1. 
-
+Learning-based agents (Q-Learning, Sarsa, and Sarsa($\lambda$)) use Q-value tables to inform their action choices.  
+They can be trained prior to playing a game by running the `train.py` script in the following format:
+```sh
+python train.py -i ITERATIONS -m MODEL [-a ADVERSARY] [-u uid]
+# int (required*) {ITERATIONS}: number of games over which to train
+# str (required*) {MODEL}: agent type to train, 
+#                 {MODEL} must be from set {'qlearning', 'sarsa', 'sarsa-lambda'}
+# str (optional)  {ADVERSARY}: agent type to train against, 
+#                 {ADVERSARY} must be from set {'random', 'mcts'} 
+#                  default adversary is random agent
+# str (optional)  {UID}: unique id/name string to assign to agent
 ```
 
+Examples:  
+To train a Sarsa agent for 30 iterations against an MCTS agent:
+```sh
+python train.py -m sarsa -i 30 -a mcts
+```
+
+To train a Qlearning agent '1' for 400 iterations against a stochastic (random) agent:
+```sh
+python train.py -m qlearn -i 400 -u 1
+```
+
+---
 
 ## 3. Agent Design
 Agent design inspired by Berkeley CS188 Pacman AI Project's Agent implementation ([course page](https://inst.eecs.berkeley.edu/~cs188/fa25/)).
@@ -46,15 +63,15 @@ An Agent will:
 We first define an abstract agent. Any subclass will need to implement a `getAction()` method which will choose an action based on the current `game.state`.
 
 From there, we implement the following agents:
-- Stochastic Agent
+- Random Agent
 - MCTS Agent
 - Q-Learning Agent
 - Sarsa Agent
 - Sarsa($\lambda$) Agent
 
 ---
-### Stochastic Agent
-Chooses action from legal moves at random
+### Random Agent
+The Random/Stochastic Agent selects action from all legal moves at random.
 
 ### MCTS Agent
 At each round of play, this agent generates a tree that it uses to inform its action selection.

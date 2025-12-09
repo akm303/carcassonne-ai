@@ -4,14 +4,14 @@ import os, pickle
 from wingedsheep.carcassonne.carcassonne_game import CarcassonneGame
 from wingedsheep.carcassonne.tile_sets.tile_sets import TileSet
 
-from agents import QLearnAgent, RandAgent
+from agents import Agent, QLearnAgent, RandAgent
 
 
-def run_episode(q_agent: QLearnAgent, epsilon: float, render: bool = False):
+def run_episode(trainee: QLearnAgent, adversary: Agent, epsilon: float, render: bool = False):
     """
     Run a single self-contained episode:
     - new CarcassonneGame
-    - q_agent vs random agent
+    - trainee vs adversary agent
     - returns final scores [q_score, rand_score]
     """
     game = CarcassonneGame(
@@ -20,12 +20,11 @@ def run_episode(q_agent: QLearnAgent, epsilon: float, render: bool = False):
         supplementary_rules=[],
     )
 
-    opp_agent = RandAgent(1)
-    players = [q_agent, opp_agent]
+    players = [trainee, adversary]
 
     # Reset only per-episode memory, keep learned Q-table
-    q_agent.reset_episode()
-    q_agent.epsilon = epsilon
+    trainee.reset_episode()
+    trainee.epsilon = epsilon
 
     while not game.is_finished():
         player_id = game.get_current_player()
@@ -40,43 +39,45 @@ def run_episode(q_agent: QLearnAgent, epsilon: float, render: bool = False):
     return game.state.scores  # [score_Q, score_rand]
 
 
-def train(episodes,agent_filepath) -> None:
+def train(episodes, traineeClass, adversaryClass, agent_filepath) -> None:
     # init agent
-    q_agent = QLearnAgent(
+    trainee = traineeClass(
         index=0,
         param_filepath=agent_filepath
     )
 
-    # load prior q_table/data if it exists
-    q_agent.load_q_table(agent_filepath)
+    adversary = adversaryClass(index = 1)
 
-    q_wins = 0
-    q_draws = 0
+    # load prior q_table/data if it exists
+    trainee.load_q_table(agent_filepath)
+
+    t_wins = 0
+    t_draws = 0
 
     for ep in range(1, episodes + 1):
-        scores = run_episode(q_agent, epsilon=0.2, render=False)
+        scores = run_episode(trainee, adversary, epsilon=0.2, render=False)
         q_score, rand_score = scores
 
         if q_score > rand_score:
-            q_wins += 1
-            result = "Q-win"
+            t_wins += 1
+            result = "Player-win"
         elif q_score < rand_score:
-            result = "Rand-win"
+            result = "Adversary-win"
         else:
-            q_draws += 1
+            t_draws += 1
             result = "Draw"
 
         print(f"Episode {ep:3d}: scores = {scores} -> {result}")
     
-    q_losses = episodes - q_wins - q_draws
+    t_losses = episodes - t_wins - t_draws
 
 
     # save learned Q-table at the end
-    q_agent.save_q_table(agent_filepath)
+    trainee.save_q_table(agent_filepath)
     print("Saved trained Q-table to q_table.pkl")
 
     # return wdl for current training run
-    return q_wins,q_draws,q_losses
+    return t_wins,t_draws,t_losses
 
 if __name__ == "__main__":
     train()
