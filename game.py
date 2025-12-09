@@ -30,7 +30,7 @@ def sort_agents(input, index, iter = 50):
         return RandAgent(index)
     else:
         print("This agent is not implemented yet.")
-        print("Try again later...")
+        print("Using Random-choice agent...")
         return RandAgent(index)
 
 
