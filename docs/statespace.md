@@ -1,11 +1,20 @@
 # State Space Definition
----
-*_Note:  
-Due to the game implementation, there are a few changes & limitations that differ from the original game [1]   
-This includes: board size limited to 30x30, no starting tile, first tile placed by first player_
+*We attempt to describe the state space in natural language and mathematically.*  
+*See notes in [final report](finalreport.md) regarding [math rendering prerequisites/issues](finalreport.md#regarding-documentation-and-math-rendering)*
+
 
 ---
-## Game Description
+## Contents:
+1. [Game Description](#1-game-description)
+2. [Game Model](#2-model)
+3. [State Space](#3-states-state-space-)
+4. [Action Space](#4-actions-action-space-)
+5. [Transition Model](#5-transition-transition-function-)
+6. [Observation Model](#6-observations-function-)
+
+
+---
+## 1. Game Description
 Carcassone is a turn-based tile-placement game.  
 Though the game allows for 2-5 players and game  
 expansions, we will be focusing on 2 player games  
@@ -21,12 +30,11 @@ with a base set of landscape tiles and non-farmer meeples.
        if the extended feature does not currently have a meeple on it.
 - 3: A game ends once all 72 tiles are placed, and points are counted.
 
-The game is partially observable to both players, who can both fully  
-observe the current board and tile, but not what tiles remain in the deck.  
+The game is non-deterministic but fully observable to all (both) players. Thatis, both players have full knowledge of the current board, tiles, and remaining tile-distribution in the deck, but each tile is drawn at random from the deck.
 
 
 ---
-## Model
+## 2. Model
 The state space $\mathcal{S}$ for Carcassonne is the set of unique boards  
 (including both tile and meeple placements) that can be  
 generated over the course of the game.  
@@ -50,7 +58,7 @@ tile types, but constant and consistent across runs of the base game)
 
 ---
 ### Game Objects
-We define the following objects that make up a game state, and define them below:
+We define the following objects that make up a game state below:
 - *Tiles*
 - *Deck* (of tiles)
 - *Board*
@@ -171,7 +179,7 @@ $p\in t_{p}$ at time step $s$. An unplaced meeple is denoted as $m\in M$.
 
 
 ---
-### States: *(State Space $\mathbb X$)*
+### 3. States: *(State Space $\mathbb X$)*
 Let $\mathbb X$ be the state space of the Carcassonne base game.  
 At each step $s$, where $1 ≤ s ≤ 72$, we define the current game state $x_s\in\mathbb X$  
 as an aggregate of the object states $x_s = [\mathbb P',B_s, D_s]$, where:
@@ -226,7 +234,7 @@ $\therefore x_1 = [\mathbb P', B_1,D_1] = [\mathbb P_0, B_1, D]$
 
 
 ---
-### Actions *(Action Space $\mathcal A$)*
+### 4. Actions *(Action Space $\mathcal A$)*
 The action space $\mathcal A$ is defined as the set of all possible tile and meeple placements  
 for $t_s,B_s\in x_s$ that produces a legal $B_{s+1}\in x_{s+1}$  
 (ie. producing a valid transition from $x_s \to x_{s+1}$).
@@ -275,7 +283,7 @@ $p_f \cup features\_with\_meeple(B,t_s)=\empty$.
 (ie. the feature $f$ at position $p\in t^p_s$ does not extend a feature that currently has a meeple)
 
 ---
-### Transition *(Transition Function $T$)*
+### 5. Transition *(Transition Function $T$)*
 Transition function $T: \mathbb{X}\times\mathcal{A} \rightarrow \mathbb{X}$  
 for a state $x_s=[\mathbb{P}',B_s,D_s]$  
 and action $a_s=((b_{i,j},\theta),p)$  
@@ -309,7 +317,7 @@ $$
 
 
 ---
-### Observations (Function $O$)
+### 6. Observations (Function $O$)
 Observation $O(x_s)=(\mathbb P',B_s,t_s)$  
 ie. Both players observe from game state $x_s$,  
 - the current player ($P'$),  
@@ -317,4 +325,6 @@ ie. Both players observe from game state $x_s$,
 - the current tile ($t_s$)
 
 
-
+---
+## Additional Information
+Multiple runs of the game are very unlikely to result in repeating states. For frame of reference, a 2009 student's thesis analyzed the board state, referring to the mathematical concept of polyominoes to describe the potential shapes of the board. At the time of her research, polyominoes were only enumeratable by formula up to 56 tiles (which resulted in $8.6\times 10^{30}$ possible shapes, assuming rotations and mirrors of boards represent the same state)
