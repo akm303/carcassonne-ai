@@ -28,14 +28,14 @@ def main() -> None:
        
     # Q-learning vs random baseline:
     players: list[Agent] = [
-        RandAgent(0),
-        # QLearnAgent(1,param_filepath='agents/params/q_table_0.pkl')
+        # RandAgent(0),
+        SarsaAgent(0,param_filepath='agents/params/q_table_0.pkl'),
         MCTSAgent(1, iterations=50, vis_pbar=False)
     ]
 
     # --- main game loop ---
     while not game.is_finished():
-        print(len(game.state.deck))
+        print(f"Remaining Tiles: {len(game.state.deck)}")
         player_id: int = game.get_current_player()
         agent: Agent = players[player_id]
 
