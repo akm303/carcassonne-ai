@@ -1,7 +1,8 @@
-RL = reinforcement learning
-MCTS = monte-carlo tree search
+# Training Rinforcement Learning Models
+*RL = reinforcement learning*  
+*MCTS = monte-carlo tree search*
 
-# Training RL Models
+---
 RL agents (Q-Learning, Sarsa, and Sarsa($\lambda$)) use tables of Q-values to inform their action selection process.  
 Technically, RL agents can play games as-is, since they generate Q-tables as they go.
 They then iteratively improve as they play, adjusting Q-values as they go.
