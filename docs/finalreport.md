@@ -58,17 +58,16 @@ as a point multiplier once a feature is extended and completed.
 
 There are a number of complexities that makes solving this problem non-trivial:
 - A balance must be struck between short-term and long-term rewards,  
-  complicated by feature extensions and meeple placements.
+  complicated by feature extensions and (optional) meeple placements.
 - The game is non-deterministic due to the tile drawing mechanic.  
   Tiles are drawn at random from a set with a non-uniform distribution.
 - Each tile may be rotated (4 placement variations per tile), and may  
   have multiple positions in which they can be placed on the board.
 - Multiple runs of the game are very unlikely to repeat game states, due  
-  to the massive state space and non-deterministic nature of the game.
-<!-- todo -->
+  to the massive state space and non-deterministic nature of tile drawing.
 
-The game's complete rules and pieces are defined here: [Carcassonne - base game](https://wikicarpedia.com/car/Base_game)  
-Our game description and state space model are in [milestone 1 (statespace.md)](statespace.md)
+The original game's complete rules and pieces are defined here: [Carcassonne Wiki - base game](https://wikicarpedia.com/car/Base_game)  
+See note [regarding game implementation](#regarding-game-implementation) for differences between original game and game-engine implementation 
 
 
 ---
@@ -96,16 +95,20 @@ Though not explicitly included in our proposal, we wanted to see if we could pot
 ##### Concept
 Since every tile placement has many legal positions and orientations, its impossible to do an exhaustive search on the entire state space.
 Similarly, its infeasible to predict the action space due to its dependence on the board state and distribution of remaining tiles.
+This makes MCTS-based Carcassonne players particularly promising, since they had been used with much success in other games with massive state spaces.
 
 #### RL Methods
 ##### Concept
-We understood early on that reinforcement learning methods may be less effective in this game, for a couple reasons:
-- the state space is influenced by the board state; its unlikely to have the exact same board into two playthroughs of the game
+We understood early on that reinforcement learning methods may be significantly less effective in this game, for a couple reasons relating to the (s,a) pairs:
+- the state space includes the board state; its unlikely to have the exact same board into two playthroughs of the game
 - actions are influenced by board state and a randomly selected tile, exponentially increasing the size of the set of state-action pairs
 Because rewards are sparse, we suspect eligibility-trace based solutions, like Sarsa($\lambda$), will fare slightly better than Q-learning and Sarsa, but the enormous state space is still problematic. 
-<!-- That being said, we wanted to experiment with it, since RL-methods could potentially learn the behaviors of particular opponents. For example, if we spent enough time and resources training an RL-based agent against MCTS, which uses a stochastic rollout policy (similar to the random agent), it may be possible to_______idk blanking here     -->
-that we use as an adversary to train reinforcement-learning (RL) based agents.
+That being said, we wanted to experiment with it, since RL-methods could learn the "behaviors" of particular opponents. For example, training an RL-based agent to provide a challenge specifically against MCTS agents may be possible. 
+Additionally, due to our MCTS Agent's rollout implementation, which selects random-actions every turn simulate the game (ie. essentially the same behavior as the stochastic agent), it may be possible to train our RL models using stochastic agents, which operate much faster than MCTS and essentially behave the same in the early-game.
 
+
+#### Additional Components
+- along
 
 
 

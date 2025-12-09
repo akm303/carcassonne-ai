@@ -1,6 +1,8 @@
 
 # carcassonne
-Carcassonne implementation in python
+Carcassonne implementation in python  
+- [*CSCI 6511 Final Project Report*](docs/finalreport.md)
+- [*CSCI 6511 Milestone 1*](docs/statespace.md)
 
 ![Example game](https://github.com/wingedsheep/carcassonne/blob/master/example_game.gif)
 
@@ -13,8 +15,9 @@ Carcassonne implementation in python
 * Abbots
 * Farmers
 
-## Installation
-Updated for python 3.11.5
+## Quick Setup
+#### installing the environment
+Updated for python 3.11.*
 
 * Clone the project
 * Navigate to the project folder
@@ -30,7 +33,22 @@ source venv/bin/activate
 pip install -r requirements.txt
 ```
 
-You can now use the API in other projects.
+#### playing a game
+Once installed, run the following command to start a game:
+```sh
+python game.py
+```
+
+A menu will appear:
+- adjust game speed
+- choose whether or not to display a scoreboard
+- select number of players
+    - implementation well tested for two agents
+- choose your two agents
+    - if MCTS chosen, adjust iterations  
+    iterations are the number of search nodes to generate before selection an action
+- hit start
+
 
 ## API
 
