@@ -318,14 +318,3 @@ ie. Both players observe from game state $x_s$,
 
 
 
-
-
----
-## Sources:
-Carcassonne Implementation:
-- [1] (https://wingedsheep.com/programming-carcassonne/)
-
-Modeling:
-- [2] (https://www.math.cmu.edu/~bkell/21110-2010s/polyominoes.html)
-- [3] (https://epubs.siam.org/doi/10.1137/1.9781611977929.10)
-- [4] (https://ml-lectures.org/docs/reinforcement_learning/ml_reinforcement-learning-2.html)
