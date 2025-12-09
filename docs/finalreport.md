@@ -126,6 +126,7 @@ Basic Agent design and implementation details [here](agents.md)
     - agent design & implementation
         - Q-Learning
         - Sarsa($\lambda$)
+        - Q-table for training of RL Agents
     - Project structuring & architectural improvements
 - Alex Frolov
     - agent design & implementation
