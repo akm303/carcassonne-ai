@@ -13,9 +13,10 @@ class CarcassonneMenu:
         self.numPlayers = tk.IntVar(value=2)
         self.choiceScoreboard = tk.BooleanVar(value=False)
         self.numSpeed = tk.DoubleVar(value=0.0)
+        self.mctsIterations = tk.IntVar(value=50)
 
         # stores input from the menu, set the initial values for quick agent check
-        self.input = {"num_players": 2, "speed": 0.0, "scoreboard": False, "agents": []}
+        self.input = {"num_players": 2, "speed": 0.0, "scoreboard": False, "agents": [], "iterations": 50}
 
         # To store all widgets for agents, so we can display them depending on the number
         self.agentValues = []
@@ -62,13 +63,32 @@ class CarcassonneMenu:
             self.agentValues.append(value)
             label = tk.Label(self.root, text=f"Player - {i + 1} Agent:")
             self.agentLabelsWid.append(label)
-            choice = ttk.Combobox(self.root, textvariable=value, values=agents, state="readonly")
-            self.agentButtonsWid.append(choice)
+            self.choice = ttk.Combobox(self.root, textvariable=value, values=agents, state="readonly")
+            self.choice.bind("<<ComboboxSelected>>", self.comboChange)
+            self.agentButtonsWid.append(self.choice)
         tk.Button(self.root, text="START",command=self.startPressed).grid(row=12, column=0, columnspan=2, pady=20)
 
+        # draw the iterations label and scale for MCST (Hidden initially)
+        self.mcstLabel = tk.Label(self.root, text="Number of Iterations: ")
+        self.mcstScale = tk.Scale(self.root, from_=0, to=200, resolution=1, orient="horizontal", variable=self.mctsIterations)
 
         # call agent choice function to show first two agent selections as base case
         self.drawAgentChoice()
+        self.comboChange()
+
+
+    def comboChange(self, event = None):
+        check = False
+        for i in range(self.numPlayers.get()):
+            if (self.agentValues[i].get() == "MCTS"):
+                check = True
+        if check:
+            self.mcstLabel.grid(row=11, column=0, padx=10, pady=5)
+            self.mcstScale.grid(row=11, column=1, padx=10, pady=5)
+        else:
+            self.mcstLabel.grid_forget()
+            self.mcstScale.grid_forget()
+
 
     def drawAgentChoice(self):
         count = self.numPlayers.get()
@@ -82,11 +102,13 @@ class CarcassonneMenu:
             else:
                 self.agentLabelsWid[i].grid_forget()
                 self.agentButtonsWid[i].grid_forget()
+        self.comboChange()
 
     def startPressed(self):
         self.input["num_players"] = self.numPlayers.get()
         self.input["speed"] = self.numSpeed.get()
         self.input["scoreboard"] = self.choiceScoreboard.get()
+        self.input["iterations"] = self.mctsIterations.get()
 
         # get agents depending on the radio button number
         count = self.input["num_players"]

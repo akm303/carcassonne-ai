@@ -17,7 +17,7 @@ import cProfile
 import pstats
 
 
-def sort_agents(input, index):
+def sort_agents(input, index, iter = 50):
     if input == "Q-Learning":
         # here we need to add the final filepath of already taught algorithm / same for sarsa
         return QLearnAgent(index, param_filepath='agents/params/q_table_1.pkl')
@@ -26,7 +26,7 @@ def sort_agents(input, index):
     elif input == "Sarsa (Lambda)":
         return SarsaLambdaAgent(index, param_filepath='agents/params/sarsa_table_1.pkl')
     elif input == "MCTS":
-        return MCTSAgent(index, iterations=50, vis_pbar=False)
+        return MCTSAgent(index, iterations=iter, vis_pbar=False)
     elif input == "Random":
         return RandAgent(index)
     else:
@@ -50,6 +50,7 @@ def main() -> None:
     speed = input["speed"]
     scoreboard = input["scoreboard"]
     agents = input["agents"]
+    iterations = input["iterations"]
 
     game = CarcassonneGame(
         players=num_players,
@@ -59,7 +60,7 @@ def main() -> None:
 
     agentClasses = []
     for i in range(num_players):
-        agentClasses.append(sort_agents(agents[i], i))
+        agentClasses.append(sort_agents(agents[i], i, iterations))
 
 
 
