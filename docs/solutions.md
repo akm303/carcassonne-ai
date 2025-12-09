@@ -18,19 +18,14 @@ For our project we implemented several agents that can be used to play the game:
 - Sarsa Agent               [`(sarsa_agent.py)`](../agents/sarsa_agent.py)
 - Sarsa($\lambda$) Agent    [`(sarsa_lambda_agent.py)`](../agent/sarsa_lambda_agent.py`)
 
-
 Our agents fall into two categories:
 - Non-Learning Agents (ie. Stochastic and MCTS agents)
-    - do not require a training phase
-    - choose actions dynamically by some policy  
 - Learning Agents (ie. Q-learning, Sarsa, and Sarsa($\lambda$) agents) 
-    - require a training phase
-    - maintain a table of Q-values
 
 
 ## 2. How to Use Agents
 #### 1. Training
-Learning-based agents must first be trained. 
+Learning-based agents () must first be trained. 
 To do so, follow this process:
 1. adjust `train.py`
 ```py

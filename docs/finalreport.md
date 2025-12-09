@@ -16,7 +16,8 @@ Below are a set of hyperlinks to different documents submitted for our project:
 
 ### Project Setup/Run:
 - Documents uses Markdown with KaTeX math rendering.  
-Use a viewer that supports math rendering to see formulas correctly.
+  Use a viewer that supports math rendering to see formulas correctly.
+
 - Base Project/Game Setup and Run instructions in root level [README.md](../README.md)
 
 - Software requirements
