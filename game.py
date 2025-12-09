@@ -7,7 +7,7 @@ from wingedsheep.carcassonne.objects.actions.action import Action
 from wingedsheep.carcassonne.tile_sets.tile_sets import TileSet
 from wingedsheep.carcassonne.tile_sets.supplementary_rules import SupplementaryRule
 
-from agents import Agent, RandAgent, QLearnAgent
+from agents import Agent, RandAgent, QLearnAgent, SarsaAgent
 from agents.mcts_agent import MCTSAgent
 
 import cProfile
@@ -28,14 +28,14 @@ def main() -> None:
        
     # Q-learning vs random baseline:
     players: list[Agent] = [
-        RandAgent(0),
-        # QLearnAgent(1,param_filepath='agents/params/q_table_0.pkl')
+        # RandAgent(0),
+        SarsaAgent(0,param_filepath='agents/params/q_table_0.pkl'),
         MCTSAgent(1, iterations=50, vis_pbar=False)
     ]
 
     # --- main game loop ---
     while not game.is_finished():
-        print(len(game.state.deck))
+        print(f"Remaining Tiles: {len(game.state.deck)}")
         player_id: int = game.get_current_player()
         agent: Agent = players[player_id]
 
