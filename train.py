@@ -6,8 +6,6 @@ import os, pickle, argparse
 from agents import Agent, RandAgent, QLearnAgent, MCTSAgent, SarsaAgent, SarsaLambdaAgent
 from agents.training.train_Q import train
 
-# from agents.training.train_Sarsa import train as s_train
-
 AGENT_DIR = "agents"
 PARAM_DIR = f"{AGENT_DIR}/params"
 
@@ -46,11 +44,11 @@ def main():
     valid_models = {
         "qlearn": QLearnAgent,
         "sarsa": SarsaAgent,
-        "sarsalambda":SarsaLambdaAgent
+        "sarsalambda": SarsaLambdaAgent,
     }
 
     def valid_model(model):
-        if not model in valid_models:
+        if model not in valid_models:
             raise argparse.ArgumentDefaultsHelpFormatter()
         return model
 
@@ -58,13 +56,12 @@ def main():
     # note, currently have not implemented using learning-based agents as adversary
     valid_adversaries = {
         "random": RandAgent,
-        "mcts": MCTSAgent, # ! very slow
+        "mcts": MCTSAgent,  # ! very slow
     }
 
     def valid_adversary(adversary):
-        if not adversary in valid_adversaries:
+        if adversary not in valid_adversaries:
             raise argparse.ArgumentDefaultsHelpFormatter()
-            # return DEFAULT_ADVERSARY
         return adversary
 
     print("AGENT TRAINER")
@@ -73,13 +70,17 @@ def main():
         "-i", "--iterations", type=int, required=True, help="training iterations"
     )
     parser.add_argument(
-        "-m", "--model", type=valid_model, required=True, help=f"agent model to train ({valid_models})"
+        "-m",
+        "--model",
+        type=valid_model,
+        required=True,
+        help=f"agent model to train ({valid_models})",
     )
     parser.add_argument(
         "-a",
         "--adversary",
         type=valid_adversary,
-        default='random',
+        default="random",
         required=False,
         help=f"model to train against ({valid_adversaries})",
     )
@@ -94,8 +95,8 @@ def main():
 
     # otherwise,
     episodes = int(args.iterations)
-    player = args.model
-    adversary = args.adversary
+    player = args.model        # 'qlearn', 'sarsa', 'sarsalambda'
+    adversary = args.adversary # 'random', 'mcts'
     agent_id = args.uid
     print(
         f"training {player} agent '{agent_id}' for {episodes} iterations against {adversary}\n"
@@ -110,19 +111,26 @@ def main():
     allscores = load_wdl(wdl_filepath)
 
     # train player against adversary
-    wins, draws, losses = train(episodes, valid_models[player], valid_adversaries[adversary], param_filepath)
-    print("\nTraining summary vs random:")
+    wins, draws, losses = train(
+        episodes,
+        valid_models[player],
+        valid_adversaries[adversary],
+        param_filepath,
+    )
+    print(f"\nTraining summary vs {adversary}:")  # <-- changed
 
     total_episodes = episodes + allscores[EPISODES]
     total_wins = wins + allscores[WINS]
     total_draws = draws + allscores[DRAWS]
     total_losses = losses + allscores[LOSSES]
 
-    print(
-        f"  Q-learning:   current : {episodes:5d} episodes : wins/draws/losses : {wins}/{draws}/{losses}"
+    label = player  # 'qlearn', 'sarsa', or 'sarsalambda'  # <-- added
+
+    print(  # <-- changed
+        f"  {label}:   current : {episodes:5d} episodes : wins/draws/losses : {wins}/{draws}/{losses}"
     )
-    print(
-        f"  Q-learning: aggregate : {total_episodes:5d} episodes : wins/draws/losses : {total_wins}/{total_draws}/{total_losses}"
+    print(  # <-- changed
+        f"  {label}: aggregate : {total_episodes:5d} episodes : wins/draws/losses : {total_wins}/{total_draws}/{total_losses}"
     )
 
     allscores[EPISODES] = total_episodes
