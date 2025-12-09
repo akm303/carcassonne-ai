@@ -19,6 +19,9 @@ class CityUtil:
         explored: Set[CoordinateWithSide] = cities.union(open_edges)
         while len(open_edges) > 0:
             open_edge: CoordinateWithSide = open_edges.pop()
+            if open_edge.coordinate.row < 0 or open_edge.coordinate.row >= len(game_state.board) or \
+                    open_edge.coordinate.column < 0 or open_edge.coordinate.column >= len(game_state.board[0]):
+                continue
             new_cities = cls.cities_for_position(game_state, open_edge)
             cities = cities.union(new_cities)
             new_open_edges = set(map(lambda x: cls.opposite_edge(x), new_cities))
