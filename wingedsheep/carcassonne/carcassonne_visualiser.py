@@ -81,7 +81,7 @@ class CarcassonneVisualiser:
             for meeple_position in placed_meeples:
                 self.__draw_meeple(player, meeple_position)
 
-        self.canvas.update()
+        # self.canvas.update()
 
     def __draw_meeple(self, player_index: int, meeple_position: MeeplePosition):
         image = self.__get_meeple_image(
