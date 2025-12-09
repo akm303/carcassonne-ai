@@ -9,6 +9,7 @@ from wingedsheep.carcassonne.tile_sets.supplementary_rules import SupplementaryR
 
 from agents import Agent, RandAgent, QLearnAgent
 from agents.mcts_agent import MCTSAgent
+from agents.SarsaLambda_Agent import SarsaLambdaAgent
 
 import cProfile
 import pstats
@@ -30,7 +31,7 @@ def main() -> None:
     players: list[Agent] = [
         RandAgent(0),
         # QLearnAgent(1,param_filepath='agents/params/q_table_0.pkl')
-        MCTSAgent(1, iterations=50, vis_pbar=False)
+        SarsaLambdaAgent(1, param_filepath=f'agents/params/q_table_{1}.pkl')
     ]
 
     # --- main game loop ---
