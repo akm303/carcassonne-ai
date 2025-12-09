@@ -12,7 +12,7 @@ class MCTSAgent(Agent):
     """Agent using Monte-Carlo Tree Search"""
     def __init__(self, index, iterations=150, vis_pbar=True):
         self.index = index
-        self.type = "MCTSch"
+        self.type = "MCTS"
         self.iterations = iterations
         self.vis_pbar = vis_pbar
 

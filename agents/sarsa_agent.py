@@ -145,7 +145,7 @@ class SarsaAgent(Agent):
         self.last_action_key = self._encode_action(chosen_action) # a'
         self.last_score = current_score
 
-        print(f"{self}: {chosen_action}")
+        # print(f"{self}: {chosen_action}")
         return chosen_action
 
     def reset_episode(self):
