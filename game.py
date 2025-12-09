@@ -7,7 +7,7 @@ from wingedsheep.carcassonne.objects.actions.action import Action
 from wingedsheep.carcassonne.tile_sets.tile_sets import TileSet
 from wingedsheep.carcassonne.tile_sets.supplementary_rules import SupplementaryRule
 
-from agents import Agent, RandAgent, QLearnAgent
+from agents import Agent, RandAgent, QLearnAgent, SarsaAgent
 from agents.mcts_agent import MCTSAgent
 from agents.SarsaLambda_Agent import SarsaLambdaAgent
 
@@ -36,7 +36,7 @@ def main() -> None:
 
     # --- main game loop ---
     while not game.is_finished():
-        print(len(game.state.deck))
+        print(f"Remaining Tiles: {len(game.state.deck)}")
         player_id: int = game.get_current_player()
         agent: Agent = players[player_id]
 
