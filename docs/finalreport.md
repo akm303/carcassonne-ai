@@ -7,30 +7,20 @@
 - Ari Majumdar
 
 ---
-### Project Document Links
-Below are a set of hyperlinks to different documents submitted for our project:
-- [Problem Description (Proposal in Google Doc)](https://docs.google.com/document/d/1PEDPkamepkVnma3u2gy3hDgGm40ObsuCCUwDg2AMZo8/edit?usp=sharing)
-- [Milestone 1 (State Space Descripton)](statespace.md)
-- [Solution Method](solutions.md)
-
-
-### Project Setup/Run:
-- Documents uses Markdown with KaTeX math rendering.  
-  Use a viewer that supports math rendering to see formulas correctly.
-
-- Base Project/Game Setup and Run instructions in root level [README.md](../README.md)
-
-- Software requirements
-    - Python Interpreter Version 3.12.*
-    - Python Module Requirements in [`requirements.txt`](../requirements.txt)
-
-- Setup instructions
-    - project setup instructions: [README.md](../README.md)
-    - agent setup instructions: []
-    - running instructions: (wip)
-
+*Note regarding Documentation*
+- Project documentation use Markdown with KaTeX math rendering.  
+  Use a viewer that supports math rendering to see formulas correctly.  
+  eg. default VS-code markdown viewer
 
 ---
+### Project Document Links
+Below are a set of links to different documents submitted for and describing our work:
+- [Project Proposal (Google Docs)](https://docs.google.com/document/d/1PEDPkamepkVnma3u2gy3hDgGm40ObsuCCUwDg2AMZo8/edit?usp=sharing)
+- [Milestone 1 (State Space Descripton)](statespace.md)
+- [Agent Information](agents.md)
+
+------
+
 ## Motivation
 Carcassonne is a game with an intractibly large state space.  
 The game rules and pieces are defined here: [Carcassonne - base game](https://wikicarpedia.com/car/Base_game)
@@ -65,6 +55,21 @@ Defined here: [milestone 1](../docs/statespace.md)
 Game implemented by Wingedsheep (details on design and implementation [here](https://wingedsheep.com/programming-carcassonne/))  
 Basic Agent design and implementation details [here](agents.md)
 
+
+
+### Project Setup/Run:
+- Base Project/Game Setup and Run instructions in root level [README.md](../README.md)
+- Software requirements
+    - Python Interpreter Version 3.12.*
+    - Python Module Requirements in [`requirements.txt`](../requirements.txt)
+
+- Setup instructions
+    - project setup instructions: [README.md](../README.md)
+    - agent setup instructions: []
+    - running instructions: (wip)
+
+
+---
 
 
 ## Team Contributions
