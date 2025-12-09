@@ -7,19 +7,25 @@
 - Ari Majumdar
 
 ---
-### Project Proposal
-[Link to Proposal (Google Docs)](https://docs.google.com/document/d/1PEDPkamepkVnma3u2gy3hDgGm40ObsuCCUwDg2AMZo8/edit?usp=sharing)
+### Project Document Links
+Below are a set of hyperlinks to different documents submitted for our project:
+- [Problem Description (Proposal in Google Doc)](https://docs.google.com/document/d/1PEDPkamepkVnma3u2gy3hDgGm40ObsuCCUwDg2AMZo8/edit?usp=sharing)
+- [Milestone 1 (State Space Descripton)](statespace.md)
+- [Solution Method](solutions.md)
 
 
 ### Project Setup/Run:
-- Setup and running instructions in [README.md](../README.md) at root level
 - Documents uses Markdown with KaTeX math rendering.  
 Use a viewer that supports math rendering to see formulas correctly.
+- Base Project/Game Setup and Run instructions in root level [README.md](../README.md)
 
 - Software requirements
-    - wip
+    - Python Interpreter Version 3.12.*
+    - Python Module Requirements in [`requirements.txt`](../requirements.txt)
+
 - Setup instructions
-    - setup instructions: [README.md](../README.md)
+    - project setup instructions: [README.md](../README.md)
+    - agent setup instructions: []
     - running instructions: (wip)
 
 

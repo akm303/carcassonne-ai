@@ -4,8 +4,9 @@ import training function
 
 import os, pickle
 
-from agents.training.train_MCTS import train as mcts_train
+# from agents.training.train_MCTS import train as mcts_train
 from agents.training.train_Q import train as q_train
+# from agents.training.train_Sarsa import train as s_train
 
 AGENT_DIR = "agents"
 PARAM_DIR = f"{AGENT_DIR}/params"
@@ -13,9 +14,9 @@ PARAM_DIR = f"{AGENT_DIR}/params"
 # training function to select agent to train
 train = q_train
 
-# load/store training statistics
+# load/store training statistics/history
 AGENT_ID = 0
-AGENT_TYPE = 'q' # 'mcts'
+AGENT_TYPE = 'q'
 TRAINING_ITERATIONS = 5
 
 EPISODES = "episodes"

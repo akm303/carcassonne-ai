@@ -1,5 +1,45 @@
-# Agent Design/API
+# Solution Method
+## Table of Contents
+1. Agents
+2. How to Use Agents
+3. Agent Design
 
+---
+MCTS = Monte-Carlo Tree Search
+RL = Reinforcement Learning
+
+
+---
+## 1. Agents
+For our project we implemented several agents that can be used to play the game:
+- Stochastic Agent          [`(random_agent.py)`](../agents/random_agent.py)
+- MCTS Agent                [`(mcts_agent.py)`](../agents/mcts_agent.py)
+- Q-learning Agent          [`(qlearn_agent.py)`](../agents/qlearn_agent.py)
+- Sarsa Agent               [`(sarsa_agent.py)`](../agents/sarsa_agent.py)
+- Sarsa($\lambda$) Agent    [`(sarsa_lambda_agent.py)`](../agent/sarsa_lambda_agent.py`)
+
+
+Our agents fall into two categories:
+- Non-Learning Agents (ie. Stochastic and MCTS agents)
+    - do not require a training phase
+    - choose actions dynamically by some policy  
+- Learning Agents (ie. Q-learning, Sarsa, and Sarsa($\lambda$) agents) 
+    - require a training phase
+    - maintain a table of Q-values
+
+
+## 2. How to Use Agents
+#### 1. Training
+Learning-based agents must first be trained. 
+To do so, follow this process:
+1. adjust `train.py`
+```py
+# 1. 
+
+```
+
+
+## 3. Agent Design
 Agent design inspired by Berkeley CS188 Pacman AI Project's Agent implementation ([course page](https://inst.eecs.berkeley.edu/~cs188/fa25/)).
 
 An Agent will:
