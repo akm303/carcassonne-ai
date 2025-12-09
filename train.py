@@ -3,11 +3,8 @@ import training function
 """
 
 import os, pickle, argparse
-
-from agents import Agent, RandAgent, QLearnAgent, MCTSAgent, SarsaAgent
-
-# from agents.training.train_MCTS import train as mcts_train
-from agents.training.train_Q import train as q_train
+from agents import Agent, RandAgent, QLearnAgent, MCTSAgent, SarsaAgent, SarsaLambdaAgent
+from agents.training.train_Q import train
 
 # from agents.training.train_Sarsa import train as s_train
 
@@ -16,7 +13,6 @@ PARAM_DIR = f"{AGENT_DIR}/params"
 
 # training function to select agent to train
 DEFAULT_ADVERSARY = "random"
-train = q_train
 
 # keys for load/store training statistics/history
 EPISODES = "episodes"
@@ -50,7 +46,7 @@ def main():
     valid_models = {
         "qlearn": QLearnAgent,
         "sarsa": SarsaAgent,
-        # "sarsalambda":SarsaLambdaAgent},
+        "sarsalambda":SarsaLambdaAgent
     }
 
     def valid_model(model):
@@ -62,7 +58,7 @@ def main():
     # note, currently have not implemented using learning-based agents as adversary
     valid_adversaries = {
         "random": RandAgent,
-        "mcts": MCTSAgent,
+        "mcts": MCTSAgent, # ! very slow
     }
 
     def valid_adversary(adversary):

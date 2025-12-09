@@ -3,7 +3,7 @@ import os, pickle, random
 from wingedsheep.carcassonne.carcassonne_game import CarcassonneGame
 from wingedsheep.carcassonne.objects.actions.action import Action
 
-from .base import Agent
+from .base_agent import Agent
 
 
 # Author: Anvay Paralikar Q_Learning agent implementation
