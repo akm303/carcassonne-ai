@@ -7,9 +7,8 @@ from wingedsheep.carcassonne.objects.actions.action import Action
 from wingedsheep.carcassonne.tile_sets.tile_sets import TileSet
 from wingedsheep.carcassonne.tile_sets.supplementary_rules import SupplementaryRule
 
-from agents import Agent, RandAgent, QLearnAgent, SarsaAgent
+from agents import Agent, RandAgent, QLearnAgent, SarsaAgent, SarsaLambdaAgent
 from agents.mcts_agent import MCTSAgent
-from agents import SarsaLambdaAgent
 from menu import CarcassonneMenu
 from scoreboard import drawScoreboard
 
