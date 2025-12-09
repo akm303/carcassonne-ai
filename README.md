@@ -17,14 +17,14 @@ Carcassonne implementation in python
 Updated for python 3.11.5
 
 * Clone the project
-* Go to the project folder
+* Navigate to the project folder
 * Run the following: 
 ```sh
 # sets up local environment
 python -m venv venv 
 
 # activates local environment
-source .venv/bin/activate
+source venv/bin/activate
 
 # installs required packages (numpy & Pillow)
 pip install -r requirements.txt
@@ -61,6 +61,6 @@ while not game.is_finished():
 ```
 
 ## CSCI 6511 Info
-Link to Milestone document: [milestones.md](/agents/milestones.md)  
+Link to Milestone document: [MILESTONES.md](/agents/milestones.md)  
 Linke to Final Report: []  
 Both documents in `agents/` directory
