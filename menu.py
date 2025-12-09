@@ -54,7 +54,7 @@ class CarcassonneMenu:
         tk.Checkbutton(self.root, text="Show Score", variable=self.choiceScoreboard).grid(row=3, column=1)
         # additional speed adjust system ---- so we can track agents' moves more precise
         tk.Scale(self.root, from_=0.0, to=2.0, resolution=0.1, orient="horizontal", variable=self.numSpeed).grid(row=2, column=1)
-        agents = ["Random", "Q-Learning", "MCTS", "Human (Not Available)", "Sarsa (Not Available)", "... coming soon"]
+        agents = ["Random", "Q-Learning", "MCTS", "Sarsa", "Sarsa (Lambda)",  "Human (Not Available)", "... coming soon"]
         # create 5 rows for maximum number of agents. Extra ones won't be displayed
         for i in range(5):
             # connect value to the dropdown choice
@@ -102,5 +102,5 @@ class CarcassonneMenu:
         if not self.input["agents"]:
             return None
         return self.input
-    
+
 

@@ -6,7 +6,7 @@ from wingedsheep.carcassonne.objects.actions.action import Action
 from wingedsheep.carcassonne.tile_sets.tile_sets import TileSet
 from wingedsheep.carcassonne.tile_sets.supplementary_rules import SupplementaryRule
 
-from agents import Agent, RandAgent, QLearnAgent
+from agents import Agent, RandAgent, QLearnAgent, SarsaLambdaAgent, SarsaAgent
 from agents.mcts_agent import MCTSAgent
 
 from menu import CarcassonneMenu
@@ -16,11 +16,13 @@ import time
 from scoreboard import drawScoreboard
 
 def sort_agents(input, index):
-    '''elif input == "Sarsa":
-            return SarsaAgent(index)'''
     if input == "Q-Learning":
         # here we need to add the final filepath of already taught algorithm / same for sarsa
-        return QLearnAgent(index, param_filepath='')
+        return QLearnAgent(index, param_filepath='agents/params/q_table_1.pkl')
+    elif input == "Sarsa":
+        return SarsaAgent(index, param_filepath='agents/params/q_table_1.pkl')
+    elif input == "Sarsa (Lambda)":
+        return SarsaLambdaAgent(index, param_filepath='agents/params/q_table_1.pkl')
     elif input == "MCTS":
         return MCTSAgent(index)
     elif input == "Random":
