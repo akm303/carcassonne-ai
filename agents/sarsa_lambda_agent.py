@@ -18,18 +18,16 @@ class SarsaLambdaAgent(Agent):
     - Uses epsilon-greedy policy over valid actions
     - Reward = change in this player's score since its last move
     - Uses following steps approach:
-        1) betta = r + gamma * Q(s', a') - Q(s, a)
+        1) td_error = r + gamma * Q(s', a') - Q(s, a)
         2) Update traces for all (s, a): e(s, a) <- gamma * lambda * e(s, a)
         3) Update the current trace: e(s,a) += 1
-        4) Update Q for all (s, a): Q(s,a) <- Q(s, a) + alpha * betta * e(s, a)
+        4) Update Q for all (s, a): Q(s,a) <- Q(s, a) + alpha * td_error * e(s, a)
     """
 
-    def __init__(
-        self,
-        index,
-        params={"alpha": 0.3, "gamma": 0.9, "epsilon": 0.2, "lambda": 0.75}, # After training choose better fit for lambda, for now I put random value
-        param_filepath=None,
-    ):
+    def __init__(self, index, params=None, param_filepath=None):
+        if params is None:
+            params = {"alpha": 0.3, "gamma": 0.9, "epsilon": 0.2, "lambda": 0.75}
+
         self.index = index
         self.type = "SarsaLambda"
 
@@ -142,8 +140,8 @@ class SarsaLambdaAgent(Agent):
 
             old_q = self.q_table.get((self.last_state_key, self.last_action_key), 0.0)
 
-            # calculate the betta error
-            betta = reward + self.gamma * q_next - old_q
+            # calculate the td_error error
+            td_error = reward + self.gamma * q_next - old_q
 
             # decay all traces
             for key in (self.e_trace.keys()):
@@ -152,10 +150,10 @@ class SarsaLambdaAgent(Agent):
             # increase the current trace by one
             self.e_trace[(self.last_state_key, self.last_action_key)] = self.e_trace.get((self.last_state_key, self.last_action_key), 0.0) + 1
 
-            # update all q using the formula: Q(s,a) <- Q(s, a) + alpha * betta * e(s, a)
+            # update all q using the formula: Q(s,a) <- Q(s, a) + alpha * td_error * e(s, a)
             for (s, a), value in self.e_trace.items():
                 old_q = self.q_table.get((s, a), 0.0)
-                self.q_table[(s,a)] = old_q + self.alpha * betta * value
+                self.q_table[(s,a)] = old_q + self.alpha * td_error * value
 
             # printing the Q-table size
             if len(self.q_table) % 200 == 0:  # print every 200 updates

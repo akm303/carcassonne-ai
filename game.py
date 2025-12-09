@@ -18,12 +18,12 @@ import pstats
 
 def sort_agents(input, index, iter = 50):
     if input == "Q-Learning":
-        # here we need to add the final filepath of already taught algorithm / same for sarsa
-        return QLearnAgent(index, param_filepath='agents/params/q_table_1.pkl')
+        # Q-learning agent trained with: python train.py -m qlearn -a random -i 5000 -u 1
+        return QLearnAgent(index, param_filepath='agents/params/qlearn_table_1.pkl')
     elif input == "Sarsa":
         return SarsaAgent(index, param_filepath='agents/params/sarsa_table_1.pkl')
     elif input == "Sarsa (Lambda)":
-        return SarsaLambdaAgent(index, param_filepath='agents/params/sarsa_table_1.pkl')
+        return SarsaLambdaAgent(index, param_filepath='agents/params/sarsalambda_table_1.pkl')
     elif input == "MCTS":
         return MCTSAgent(index, iterations=iter, vis_pbar=False)
     elif input == "Random":
