@@ -135,15 +135,15 @@ Let $B$ represent the Board:
 - Let $i,j$ be indices such that $\forall i,j: 1 ≤ i,j ≤ 35$
 - $b_{i,j}$ represents the position on $B$ at coordinates $(i,j)$
 - For each $b_{i,j}\in B$:
-$$
+```math
 b_{i,j} = 
 \begin{cases} 
     0 & \text{if no tile at position }(i,j) \\
     t_{s} & \text{if tile $t_s$ at position }(i,j) \\
 \end{cases}
-$$  
+```
 - ie. Board $B$ is:
-$$
+```math
 B=
 \begin{bmatrix}
     b_{1,1} & b_{1,2} & b_{1,3} & \dots  & b_{1,35} \\
@@ -151,7 +151,8 @@ B=
     \vdots & \vdots & \vdots & \ddots & \vdots \\
     b_{35,1} & b_{35,2} & b_{35,3} & \dots  & b_{35,35}
 \end{bmatrix}
-$$
+```
+
 Let $tiles(B)$ return the set of tiles currently in $B$  
 Let $|B|$ return the number of tiles currently in $B$  
 
@@ -191,13 +192,13 @@ as an aggregate of the object states $x_s = [\mathbb P',B_s, D_s]$, where:
     - $\mathbb P' = \mathbb P_{(s-1)\mod 2}$ in a two player game
     - $\mathbb P_M'$ denotes that player's set of unplaced meeples
     - ie.
-$$
+```math
     s=1: \mathbb P' =\mathbb P_0 \\ 
     s=2: \mathbb P' =\mathbb P_1 \\ 
     s=3: \mathbb P' =\mathbb P_0 \\ 
     ...\\
     s=72: \mathbb P' =\mathbb P_1 \\
-$$
+```
 - $B_s$ is the board state at step s 
     - ie. $tiles(B_s)=\{t_1,...,t_{s-1}\}$
 - $D_s$ is the remaining undrawn tiles
@@ -217,7 +218,7 @@ $x_1$: the following assignments are made:
 - $D_1=D$ 
 - $B_1$ is an empty board;   
 $\forall b_{i,j}\in B_1, b_{i,j}=0$, so: 
-$$
+```math
 \begin{matrix}
 B_1=
 \begin{bmatrix}
@@ -232,7 +233,7 @@ ie. & tiles(B_1)=\{\} \\
 \therefore & meeples(B_1)=\{\}
 \end{matrix}
 \end{matrix}
-$$
+```
 $\therefore x_1 = [\mathbb P', B_1,D_1] = [\mathbb P_0, B_1, D]$
 
 
@@ -249,7 +250,7 @@ Second, the player chooses whether or not to place a meeple on a feature of the 
 meeple placement is valid as long as the feature doesn't already contain another meeple.
 
 Actions $a_s\in\mathcal A$ are defined as tuples:
-$$
+```math
 \begin{array}{l}
     a_s = ((b_{i,j},\theta),p), \text{ where:} \\
     \begin{array}{l}
@@ -258,7 +259,7 @@ $$
         \text{and position } p\in t_s \text{ is selected st. }is\_valid\_meeple(B_s, b_{i,j}, p) \\
     \end{array}
 \end{array}
-$$
+```
 The two helper functions, $is\_valid\_placement()$ and $is\_valid\_meeple()$ are defined below.
 
 
@@ -294,29 +295,28 @@ the next state is:
 $x_{s+1}=T(x_s,a_s)=[\mathbb{P}'',B_{s+1},D_{s+1}]$
 
 Where:
-$$
+```math
 B_{s+1} = 
 \begin{cases}
 b_{x,y}\in B_s & \text{ if } (x,y) ≠ (i,j) \\
 b_{i,j}=rotate(t_s,\theta) & \text{otherwise} 
 \end{cases} \\
-$$
+```
 
-
-$$
+```math
 \mathbb P'_M = 
 \begin{cases}
 \mathbb P'_M - \{m\} & \text{if meeple $m$ placed} \\
 \mathbb P'_M & \text{if no meeple placed}
 \end{cases}
-$$
+```
 
-$$
+```math
 \begin{matrix}
 D_{s+1} &=& D_s - \{t_s\} \\
 t_{s+1} &=& D_{s+1}.next() \\
 \end{matrix}
-$$
+```
 
 
 ---
