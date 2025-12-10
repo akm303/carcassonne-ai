@@ -193,13 +193,13 @@ as an aggregate of the object states $x_s = [\mathbb P',B_s, D_s]$, where:
     - $\mathbb P_M'$ denotes that player's set of unplaced meeples
     - ie.  
 ```math
-\begin{matrix}
-    s=1: \mathbb P' =\mathbb P_0 \\ 
-    s=2: \mathbb P' =\mathbb P_1 \\ 
-    s=3: \mathbb P' =\mathbb P_0 \\ 
+\begin{align}
+    s=1&:\ \mathbb P' =\mathbb P_0 \\ 
+    s=2&:\ \mathbb P' =\mathbb P_1 \\ 
+    s=3&:\ \mathbb P' =\mathbb P_0 \\ 
     ...\\
-    s=72: \mathbb P' =\mathbb P_1 \\
-\end{matrix}
+    s=72&:\ \mathbb P' =\mathbb P_1 \\
+\end{align}
 ```
 - $B_s$ is the board state at step s 
     - ie. $tiles(B_s)=\{t_1,...,t_{s-1}\}$
@@ -311,26 +311,22 @@ $x_{s+1}=T(x_s,a_s)=[\mathbb{P}'',B_{s+1},D_{s+1}]$
 
 Where:  
 ```math
-B_{s+1} = 
-\begin{cases}
-b_{x,y}\in B_s & \text{ if } (x,y) ≠ (i,j) \\
-b_{i,j}=rotate(t_s,\theta) & \text{otherwise} 
-\end{cases} \\
-```
+\begin{align}
+    B_{s+1} &= && 
+    \begin{cases}
+    b_{x,y}\in B_s & \text{ if } (x,y) ≠ (i,j) \\
+    b_{i,j}=rotate(t_s,\theta) & \text{otherwise} 
+    \end{cases} \\
 
-```math
-\mathbb P'_M = 
-\begin{cases}
-\mathbb P'_M - \{m\} & \text{if meeple $m$ placed} \\
-\mathbb P'_M & \text{if no meeple placed}
-\end{cases}
-```
+    \mathbb P'_M &=&& 
+    \begin{cases}
+    \mathbb P'_M - \{m\} & \text{if meeple $m$ placed} \\
+    \mathbb P'_M & \text{if no meeple placed}
+    \end{cases} \\
 
-```math
-\begin{matrix}
-D_{s+1} &=& D_s - \{t_s\} \\
-t_{s+1} &=& D_{s+1}.next() \\
-\end{matrix}
+    D_{s+1} &= && D_s - \{t_s\} \\
+    t_{s+1} &= && D_{s+1}.next() \\
+\end{align}
 ```
 
 
