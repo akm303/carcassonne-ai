@@ -1,3 +1,6 @@
+---
+layout: default
+---
 # AI Agents for Carcassonne
 ### CSCI 6511 AI Algorithms Final Project  
 ### Authors:
@@ -12,7 +15,7 @@
 ###### ***Regarding Game Implementation***:  
 Due to the game implementation, there are a few changes & limitations that differ from the original game.   
 This includes the following: 
-- board size limited to 30x30
+- board size limited to 35x35
 - no starting tile, first tile placed by first player
 
 See [original author's implementation document](#4-programming-carcassonne---vincent-bons-wingedsheep-2020) for more details.
@@ -138,7 +141,7 @@ between the original game and the implementation.
 
 
 ---
-## 5. all Project Links
+## 5. All Project Links
 Full set of project links (to all directories and documentation)
 
 #### Implementation Links

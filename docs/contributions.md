@@ -1,3 +1,6 @@
+---
+layout: default
+---
 ## Team Contributions
 
 ####  Keith Zhang:

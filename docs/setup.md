@@ -1,3 +1,6 @@
+---
+layout: default
+---
 # Project Setup
 *Quick setup instructions in root level [README.md](../README.md)*  
 This document is for more detailed setup instructions
@@ -22,7 +25,12 @@ This document is for more detailed setup instructions
 
 
 ## 2. Initial Setup
-#### Installation
+#### 2.1 Installation
+1. Install the Environment
+```
+
+```
+
 
 ## 3. Running a Game
 

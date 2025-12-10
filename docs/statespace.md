@@ -1,3 +1,6 @@
+---
+layout: default
+---
 # State Space Definition
 *We attempt to describe the state space in natural language and mathematically.*  
 *See notes in [final report](finalreport.md) regarding [math rendering prerequisites/issues](finalreport.md#regarding-documentation-and-math-rendering)*
@@ -53,7 +56,7 @@ We use the state for our state-space model, but describe it mathematically below
 - Players $\mathbb P_0,\mathbb P_1$, each with a supply of 7 meeples
 - A set $\mathcal{T}$ of 72 landscape tiles (non-uniformally distributed across 24  
 tile types, but constant and consistent across runs of the base game)
-- An empty 30x30 board $B$ *
+- An empty 35x35 board $B$ *
 
 
 ---
@@ -128,8 +131,8 @@ $t\in D=\{t_1,t_2,...,t_{72}\}$ where $t_s$ is the tile drawn at step $s$.
 ---
 #### *Board*
 Let $B$ represent the Board:
-- $B$ is a 30x30 matrix *
-- Let $i,j$ be indices such that $\forall i,j: 1 ≤ i,j ≤ 30$
+- $B$ is a 35x35 matrix *
+- Let $i,j$ be indices such that $\forall i,j: 1 ≤ i,j ≤ 35$
 - $b_{i,j}$ represents the position on $B$ at coordinates $(i,j)$
 - For each $b_{i,j}\in B$:
 $$
@@ -143,10 +146,10 @@ $$
 $$
 B=
 \begin{bmatrix}
-    b_{1,1} & b_{1,2} & b_{1,3} & \dots  & b_{1,30} \\
-    b_{2,1} & b_{2,2} & b_{2,3} & \dots  & b_{2,30} \\
+    b_{1,1} & b_{1,2} & b_{1,3} & \dots  & b_{1,35} \\
+    b_{2,1} & b_{2,2} & b_{2,3} & \dots  & b_{2,35} \\
     \vdots & \vdots & \vdots & \ddots & \vdots \\
-    b_{30,1} & b_{30,2} & b_{30,3} & \dots  & b_{30,30}
+    b_{35,1} & b_{35,2} & b_{35,3} & \dots  & b_{35,35}
 \end{bmatrix}
 $$
 Let $tiles(B)$ return the set of tiles currently in $B$  
@@ -327,4 +330,6 @@ ie. Both players observe from game state $x_s$,
 
 ---
 ## Additional Information
-Multiple runs of the game are very unlikely to result in repeating states. For frame of reference, a 2009 student's thesis analyzed the board state, referring to the mathematical concept of polyominoes to describe the potential shapes of the board. At the time of her research, polyominoes were only enumeratable by formula up to 56 tiles (which resulted in $8.6\times 10^{30}$ possible shapes, assuming rotations and mirrors of boards represent the same state)
+Multiple runs of the game are very unlikely to result in repeating states. For frame of reference, a 2009 student's thesis analyzed the board state, referring to the mathematical concept of polyominoes to describe the potential shapes of the board. At the time of her research, polyominoes were only enumeratable by formula up to 56 tiles (which resulted in $8.6\times 10^{30}$ possible shapes, assuming rotations and mirrors of boards represent the same state).
+Later research into polyominoes validated a function that was able to accurately enumerate polyominoes made of up to 70 tiles. It is still impossible to enumerate up to 72 tiles. 
+Regardless, this, in combination with potential meeple placements, sets an upper bound to the size of the state space. The true state is smaller due to the game constraints for tile and meeple placements.
