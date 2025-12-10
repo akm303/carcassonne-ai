@@ -62,10 +62,10 @@ tile types, but constant and consistent across runs of the base game)
 ---
 ### Game Objects
 We define the following objects that make up a game state below:
-- *Tiles*
-- *Deck* (of tiles)
-- *Board*
-- *Meeple*
+- [*Tiles*](#tiles)
+- [*Deck*](#deck) (of tiles)
+- [*Board*](#board)
+- [*Meeple*](#meeple)
 
 
 ---
@@ -123,7 +123,7 @@ $D$ will be referred to as the 'pile' or 'deck'.
 $D$ has methods:
 - $push()$: to enqueue a tile 
 - $pop()$: to dequeue a tile 
-- $next()$: to view next tile in queue (aka the 'top' of the deck) 
+- $next()$: to view next tile in queue (aka the 'top' of the deck)  
 $\forall t\in\mathcal{T}$ are pushed onto $D$ in a random order.  
 $t\in D=\{t_1,t_2,...,t_{72}\}$ where $t_s$ is the tile drawn at step $s$.  
 
@@ -193,11 +193,13 @@ as an aggregate of the object states $x_s = [\mathbb P',B_s, D_s]$, where:
     - $\mathbb P_M'$ denotes that player's set of unplaced meeples
     - ie.  
 ```math
+\begin{matrix}
     s=1: \mathbb P' =\mathbb P_0 \\ 
     s=2: \mathbb P' =\mathbb P_1 \\ 
     s=3: \mathbb P' =\mathbb P_0 \\ 
     ...\\
     s=72: \mathbb P' =\mathbb P_1 \\
+\end{matrix}
 ```
 - $B_s$ is the board state at step s 
     - ie. $tiles(B_s)=\{t_1,...,t_{s-1}\}$
@@ -229,8 +231,8 @@ B_1=
 \end{bmatrix} \\
 \\ 
 \begin{matrix}
-ie. & tiles(B_1)=\{\} \\ 
-\therefore & meeples(B_1)=\{\}
+ie. & tiles(B_1)=\emptyset \\ 
+\therefore & meeples(B_1)=\emptyset
 \end{matrix}
 \end{matrix}
 ```
@@ -251,6 +253,17 @@ meeple placement is valid as long as the feature doesn't already contain another
 
 Actions $a_s\in\mathcal A$ are defined as tuples:  
 ```math
+\begin{align}
+    a_s =& ((b_{i,j},\theta),p), \text{ where:} \\
+    % \begin{array}{l}
+        & \text{position }b_{i,j}\in B_s\land b_{i,j}=0, \\
+        & \text{rotation } \theta \text{ is selected st. }is\_valid\_placement(B_s, b_{i,j}=rotate(t_s,\theta))\text{ returns True}, \\
+        & \text{and position } p\in t_s \text{ is selected st. }is\_valid\_meeple(B_s, b_{i,j}, p) \\
+    % \end{array}
+\end{align}
+```
+
+<!-- ```math
 \begin{array}{l}
     a_s = ((b_{i,j},\theta),p), \text{ where:} \\
     \begin{array}{l}
@@ -259,7 +272,9 @@ Actions $a_s\in\mathcal A$ are defined as tuples:
         \text{and position } p\in t_s \text{ is selected st. }is\_valid\_meeple(B_s, b_{i,j}, p) \\
     \end{array}
 \end{array}
-```
+``` -->
+
+
 The two helper functions, $is\_valid\_placement()$ and $is\_valid\_meeple()$ are defined below.
 
 
