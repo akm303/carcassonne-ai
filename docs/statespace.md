@@ -183,7 +183,7 @@ $p\in t_{p}$ at time step $s$. An unplaced meeple is denoted as $m\in M$.
 
 ---
 ### 3. States
-##### *(State Space $\mathbb X$)*  
+*(State Space* $\mathbb{X}$*)*  
 Let $\mathbb X$ be the state space of the Carcassonne base game.  
 At each step $s$, where $1 ≤ s ≤ 72$, we define the current game state $x_s\in\mathbb X$  
 as an aggregate of the object states $x_s = [\mathbb P',B_s, D_s]$, where:
@@ -194,11 +194,11 @@ as an aggregate of the object states $x_s = [\mathbb P',B_s, D_s]$, where:
     - ie.  
 ```math
 \begin{align}
-    s=1&:\ \mathbb P' =\mathbb P_0 \\ 
-    s=2&:\ \mathbb P' =\mathbb P_1 \\ 
-    s=3&:\ \mathbb P' =\mathbb P_0 \\ 
+    s=1&:&\ \mathbb P' &=&\mathbb P_0 \\ 
+    s=2&:&\ \mathbb P' &=&\mathbb P_1 \\ 
+    s=3&:&\ \mathbb P' &=&\mathbb P_0 \\ 
     ...\\
-    s=72&:\ \mathbb P' =\mathbb P_1 \\
+    s=72&:&\ \mathbb P' &=&\mathbb P_1 \\
 \end{align}
 ```
 - $B_s$ is the board state at step s 
@@ -208,7 +208,7 @@ as an aggregate of the object states $x_s = [\mathbb P',B_s, D_s]$, where:
     - $\therefore D_s = [t_{s},...,t_{72}]$
     - Let $t_s$ be the next tile drawn from $D_s$
         - ie. $t_s=D_s.next()$  
-_*Note: because* $t_s$ *is implicitly defined in* $D_s$, *its not included separately in the game state,  
+_*Note: because_ $t_s$ _*is implicitly defined in*_ $D_s$, _its not included separately in the game state,  
         though it will be referred to here as the 'current' or 'active' tile_
         - Only $t_s$ is observable in $D_s$  
 
@@ -219,7 +219,7 @@ $x_1$: the following assignments are made:
 - $\mathbb P'=\mathbb P_0$ 
 - $D_1=D$ 
 - $B_1$ is an empty board;   
-$\forall b_{i,j}\in B_1,\ b_{i,j}=0,\ \implies$:  
+This means $\forall b_{i,j}\in B_1,\ b_{i,j}=0,$ so:  
 ```math
 \begin{matrix}
 B_1=
@@ -242,6 +242,7 @@ $\therefore\ x_1 = [\mathbb P', B_1,D_1] = [\mathbb P_0, B_1, D]$
 ---
 ### 4. Actions
 *(Action Space* $\mathcal{A}$*)*  
+
 The action space $\mathcal A$ is defined as the set of all possible tile and meeple placements  
 for $t_s,B_s\in x_s$ that produces a legal $B_{s+1}\in x_{s+1}$  
 (ie. producing a valid transition from $x_s \to x_{s+1}$).
@@ -272,7 +273,7 @@ Adjacent tiles must share the same feature type on adjacent edges.
 For board $B_s$, board position $b_{i,j}$, and tile $t_s$ rotated by $\theta$ to be assigned to $b_{i,j}$,  
 So $b_{i,j} = t_s = rotate(t_s, \theta)$.  
 
-Let function $is\_valid\_placement(B,b_{i,j})$ return true if all adjacent tile edges share the same feature $f$:
+Let function $is\\_valid\\_placement(B,b_{i,j})$ return true if all adjacent tile edges share the same feature $f$:
 
 - For each board positions with tiles $b'\in B$ (where $b'$ is assigned tile $t'$),  
 and $b'$ is adjacent to $b_{i,j}$ (ie. all $b'\in\{b_{i+1,j}, b_{i-1,j}, b_{i,j+1}, b_{i,j-1}\}$),  
@@ -280,17 +281,18 @@ and $b'$ is adjacent to $b_{i,j}$ (ie. all $b'\in\{b_{i+1,j}, b_{i-1,j}, b_{i,j+
 - If $\exists\ b'\text{ st. } e_f≠e_f'$, return $False$.  
 - Otherwise return $True$.
 
-Let function $features\_with\_meeple(B,t_s)$ return the set of all  
+Let function $features\\_with\\_meeple(B,t_s)$ return the set of all  
 features on, and extended by, tile $t_s$ that currently have a meeple.  
 
 Let function $is\\_valid\\_meeple(B,t_s,p)$ return true if  
-$p_f \cup$ features\_with\_meeple$(B,t_s)=\emptyset$.  
+$p_f \cup features\\_with\\_meeple(B,t_s) = \emptyset$.  
 
 (ie. the feature $f$ at position $p\in t^p_s$ does not extend a feature that currently has a meeple)
 
 ---
 ### 5. Transition
 *(Transition Function* $T$*)*  
+
 Transition function $T: \mathbb{X}\times\mathcal{A} \rightarrow \mathbb{X}$  
 for a state $x_s=[\mathbb{P}',B_s,D_s]$  
 and action $a_s=((b_{i,j},\theta),p)$  
@@ -308,7 +310,7 @@ Where:
 
     \mathbb P'_M &=&& 
     \begin{cases}
-    \mathbb P'_M - \{m\} & \text{if meeple $m$ placed} \\
+    \mathbb P'_M - \{m\} & \text{if meeple } m \text{placed} \\
     \mathbb P'_M & \text{if no meeple placed}
     \end{cases} \\
 
@@ -320,7 +322,8 @@ Where:
 
 ---
 ### 6. Observations
-(Function $O$)
+(Function $O$)  
+
 Observation $O(x_s)=(\mathbb P',B_s,t_s)$  
 ie. Both players observe from game state $x_s$,  
 - the current player ($P'$),  
