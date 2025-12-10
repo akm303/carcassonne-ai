@@ -1,3 +1,6 @@
+---
+layout: default
+---
 ## Team Contributions
 
 ####  Keith Zhang:
@@ -9,6 +12,7 @@
 - agent design and implementation
     - Q-Learning
     - Sarsa($\lambda$)
+    - Q-table for training of RL Agents
 - Project structuring & architectural improvements
 
 ####  Alex Frolov

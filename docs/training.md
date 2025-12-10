@@ -1,3 +1,6 @@
+---
+layout: default
+---
 # Training Rinforcement Learning Models
 *RL = reinforcement learning*  
 *MCTS = monte-carlo tree search*
