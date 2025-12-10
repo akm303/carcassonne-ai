@@ -20,10 +20,17 @@ This includes the following:
 
 See [original author's implementation document](#4-programming-carcassonne---vincent-bons-wingedsheep-2020) for more details.
 
+
+
 ###### ***Regarding Documentation and Math Rendering***:  
-Math rendering currently using KaTeX. Effort currently under way to format  
-using MathJAX, for reading documentation with github's markdown viewer.  
-Currently, Matrix expressions and fonts appear broken on github's default markdown viewer.
+Math expressions are formatted for rendering using github's built-in markdown viewer
+- The github site still doesn't correctly render the math expressions
+- Instead its easiest to go through documentation directly from the repo page.  
+  Scroll down to the readme, and use the links to navigate our documentation
+
+It is recommended to use Github's viewer, but any markdown viewer that is compatible with  
+MathJax or KaTeX should be capable of rendering the expressions
+
 
 ---
 ### Quick Links
