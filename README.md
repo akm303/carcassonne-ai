@@ -22,6 +22,7 @@ Updated for python 3.11.*
 * Clone the project
 * Navigate to the project folder
 * Run the following: 
+
 ```sh
 # sets up local environment
 python -m venv venv 
