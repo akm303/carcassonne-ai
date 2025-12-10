@@ -183,7 +183,7 @@ $p\in t_{p}$ at time step $s$. An unplaced meeple is denoted as $m\in M$.
 
 
 ---
-### 3. States: *(State Space $\mathbb X$)*
+### 3. States: *(State Space $\mathbb{X}$)*
 Let $\mathbb X$ be the state space of the Carcassonne base game.  
 At each step $s$, where $1 ≤ s ≤ 72$, we define the current game state $x_s\in\mathbb X$  
 as an aggregate of the object states $x_s = [\mathbb P',B_s, D_s]$, where:
