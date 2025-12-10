@@ -159,9 +159,9 @@ Let $|B|$ return the number of tiles currently in $B$
 ---
 #### *Meeple*
 Meeples provide a point-multiplying mechanism in Carcassonne.  
-After a tile is placed, the player has the option to also place  
-a meeple on a feature of that tile, as long as it is the first  
-and only meeple of that feature.  
+After a tile is placed, the player has the option to also place a  
+meeple on a feature of that tile, as long as it is the first and  
+only meeple of that feature.  
 (eg. if the current tile is placed to extend a road that already  
 has a meeple, a new meeply may not be placed.)
 
@@ -208,7 +208,7 @@ as an aggregate of the object states $x_s = [\mathbb P',B_s, D_s]$, where:
     - $\therefore D_s = [t_{s},...,t_{72}]$
     - Let $t_s$ be the next tile drawn from $D_s$
         - ie. $t_s=D_s.next()$  
-_*Note: because $t_s$ is implicitly defined in $D_s$, its not included separately in the game state,  
+_*Note: because* $t_s$ *is implicitly defined in* $D_s$, *its not included separately in the game state,  
         though it will be referred to here as the 'current' or 'active' tile_
         - Only $t_s$ is observable in $D_s$  
 
@@ -219,7 +219,7 @@ $x_1$: the following assignments are made:
 - $\mathbb P'=\mathbb P_0$ 
 - $D_1=D$ 
 - $B_1$ is an empty board;   
-$\forall b_{i,j}\in B_1, b_{i,j}=0$, so:  
+$\forall b_{i,j}\in B_1,\ b_{i,j}=0,\ \implies$:  
 ```math
 \begin{matrix}
 B_1=
@@ -236,12 +236,12 @@ ie. & tiles(B_1)=\emptyset \\
 \end{matrix}
 \end{matrix}
 ```
-$\therefore x_1 = [\mathbb P', B_1,D_1] = [\mathbb P_0, B_1, D]$
+$\therefore\ x_1 = [\mathbb P', B_1,D_1] = [\mathbb P_0, B_1, D]$
 
 
 ---
 ### 4. Actions
-*(Action Space $\mathcal A$)*  
+*(Action Space* $\mathcal{A}$*)*  
 The action space $\mathcal A$ is defined as the set of all possible tile and meeple placements  
 for $t_s,B_s\in x_s$ that produces a legal $B_{s+1}\in x_{s+1}$  
 (ie. producing a valid transition from $x_s \to x_{s+1}$).
@@ -256,15 +256,13 @@ Actions $a_s\in\mathcal A$ are defined as tuples:
 ```math
 \begin{align}
     a_s =& ((b_{i,j},\theta),p), \text{ where:} \\
-    % \begin{array}{l}
         & \text{position }b_{i,j}\in B_s\land b_{i,j}=0, \\
         & \text{rotation } \theta \text{ is selected st. }is\_valid\_placement(B_s, b_{i,j}=rotate(t_s,\theta))\text{ returns True}, \\
         & \text{and position } p\in t_s \text{ is selected st. }is\_valid\_meeple(B_s, b_{i,j}, p) \\
-    % \end{array}
 \end{align}
 ```
 
-The two helper functions, $is\_valid\_placement()$ and $is\_valid\_meeple()$ are defined below.
+The two helper functions, $is\\_valid\\_placement()$ and $is\\_valid\\_meeple()$ are defined below.
 
 
 ---
@@ -272,7 +270,7 @@ The two helper functions, $is\_valid\_placement()$ and $is\_valid\_meeple()$ are
 Adjacent tiles must share the same feature type on adjacent edges.  
 
 For board $B_s$, board position $b_{i,j}$, and tile $t_s$ rotated by $\theta$ to be assigned to $b_{i,j}$,  
-(ie. $b_{i,j} = t_s = rotate(t_s,\theta)$)
+So $b_{i,j} = t_s = rotate(t_s, \theta)$.  
 
 Let function $is\_valid\_placement(B,b_{i,j})$ return true if all adjacent tile edges share the same feature $f$:
 
@@ -285,14 +283,14 @@ and $b'$ is adjacent to $b_{i,j}$ (ie. all $b'\in\{b_{i+1,j}, b_{i-1,j}, b_{i,j+
 Let function $features\_with\_meeple(B,t_s)$ return the set of all  
 features on, and extended by, tile $t_s$ that currently have a meeple.  
 
-Let function $is\_valid\_meeple(B,t_s,p)$ return true if  
+Let function $is\\_valid\\_meeple(B,t_s,p)$ return true if  
 $p_f \cup$ features\_with\_meeple$(B,t_s)=\emptyset$.  
 
 (ie. the feature $f$ at position $p\in t^p_s$ does not extend a feature that currently has a meeple)
 
 ---
 ### 5. Transition
-###### *(Transition Function $T$)*  
+*(Transition Function* $T$*)*  
 Transition function $T: \mathbb{X}\times\mathcal{A} \rightarrow \mathbb{X}$  
 for a state $x_s=[\mathbb{P}',B_s,D_s]$  
 and action $a_s=((b_{i,j},\theta),p)$  
