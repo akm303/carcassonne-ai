@@ -134,7 +134,7 @@ Let $B$ represent the Board:
 - $B$ is a 35x35 matrix *
 - Let $i,j$ be indices such that $\forall i,j: 1 ≤ i,j ≤ 35$
 - $b_{i,j}$ represents the position on $B$ at coordinates $(i,j)$
-- For each $b_{i,j}\in B$:
+- For each $b_{i,j}\in B$:  
 ```math
 b_{i,j} = 
 \begin{cases} 
@@ -142,7 +142,7 @@ b_{i,j} =
     t_{s} & \text{if tile $t_s$ at position }(i,j) \\
 \end{cases}
 ```
-- ie. Board $B$ is:
+- ie. Board $B$ is:  
 ```math
 B=
 \begin{bmatrix}
@@ -191,7 +191,7 @@ as an aggregate of the object states $x_s = [\mathbb P',B_s, D_s]$, where:
 - $\mathbb P'$ denotes the current player (player whose turn it is on step $s$, let $\mathbb P''$ denote the other player)
     - $\mathbb P' = \mathbb P_{(s-1)\mod 2}$ in a two player game
     - $\mathbb P_M'$ denotes that player's set of unplaced meeples
-    - ie.
+    - ie.  
 ```math
     s=1: \mathbb P' =\mathbb P_0 \\ 
     s=2: \mathbb P' =\mathbb P_1 \\ 
@@ -217,7 +217,7 @@ $x_1$: the following assignments are made:
 - $\mathbb P'=\mathbb P_0$ 
 - $D_1=D$ 
 - $B_1$ is an empty board;   
-$\forall b_{i,j}\in B_1, b_{i,j}=0$, so: 
+$\forall b_{i,j}\in B_1, b_{i,j}=0$, so:  
 ```math
 \begin{matrix}
 B_1=
@@ -249,7 +249,7 @@ First, the player selects a board location and rotation for current tile $t_s$ t
 Second, the player chooses whether or not to place a meeple on a feature of the tile they just placed;  
 meeple placement is valid as long as the feature doesn't already contain another meeple.
 
-Actions $a_s\in\mathcal A$ are defined as tuples:
+Actions $a_s\in\mathcal A$ are defined as tuples:  
 ```math
 \begin{array}{l}
     a_s = ((b_{i,j},\theta),p), \text{ where:} \\
@@ -294,7 +294,7 @@ and action $a_s=((b_{i,j},\theta),p)$
 the next state is:  
 $x_{s+1}=T(x_s,a_s)=[\mathbb{P}'',B_{s+1},D_{s+1}]$
 
-Where:
+Where:  
 ```math
 B_{s+1} = 
 \begin{cases}
