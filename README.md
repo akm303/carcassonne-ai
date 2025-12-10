@@ -1,8 +1,11 @@
 
 # carcassonne
 Carcassonne implementation in python  
-- [*CSCI 6511 Final Project Report*](docs/finalreport.md)
+- [*CSCI 6511 Project Final Report*](docs/finalreport.md)
 - [*CSCI 6511 Milestone 1*](docs/statespace.md)
+
+All documentation formatted to be rendered by Github's built-in viewer
+
 
 ![Example game](https://github.com/wingedsheep/carcassonne/blob/master/example_game.gif)
 
