@@ -51,15 +51,21 @@ The Random/Stochastic Agent selects action from all legal moves at random.
 ### MCTS Agent
 At each round of play, this agent generates a tree that it uses to inform its action selection.
 To select a move, it loops:
-- generates a successor state based on a potential action
-- simulates the rest of the game by randomly selecting moves (rollout)
-- backpropogates results up the tree
+- generating a successor state based on a potential action
+- simulating the rest of the game by randomly selecting moves (rollout)
+- then backpropogating results up the tree
 
-After a fixed number of ndoes are added to the tree, the action with the highest potential score is selected.  
-After the next player takes their turn, this agent shifts its root to the appropriate next node (based on the  
-action it selected) and continues generating the tree, generating a fixed number of nodes each turn.
+It generates a fixed number of nodes (`n`) that are added to the tree. The number of nodes  
+is determined when configuring a game from the setup menu via iteration slider adjustment.  
+The iterations slider applies to all MCTS agents in that game. As one would expect, a larger  
+number of iterations results in a larger and more informed, but slower-to-generate, tree.  
+Once `n` nodes are added to the tree, the action with the highest potential score is selected,  
+and agent awaits its oponents turn.  
+After the next player takes their turn, this agent shifts its root to the appropriate next node  
+(based on the action it selected) and generating another `n` nodes that it adds to the tree.  
 
-<!-- There are a number of potential optimizations that could be made -->
+
+<!-- There are a number of potential optimizations that could be made with our design -->
 
 
 ## RL Agents
@@ -80,4 +86,11 @@ Similar in design/impelemntation to Q-learning agent, except these agents evalua
 ### Sarsa($\lambda$) Agent
 Similar in design/implementation to Sarsa agent, except these agents use a trace to affect expected values of different actions
 
+We note here that our state-space implementation is not optimal for RL-learning. Because the game is unlikely to repeat (s,a) pairs,  
+we attempted to implement a few simplifications to our Q-table state representation, but also think there must be a far more optimal state  
+representation than what we are using.  
+Too much simplification of our state space results in a model that doesn't take in enough information to evaluated a proper expected value.  
+eg. only representing state only as a position does not capture the complexity of trying to match tile features or handling meeple placement.
+But our current implimentation is too specific, and it means a majority of our stored Q-values are not applicable to most of the later games an agent plays.
 
+We did not fully account for this while building our agents, and believe there is a lot of space for improvement.

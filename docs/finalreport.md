@@ -33,6 +33,16 @@ MathJax or KaTeX should be capable of rendering the expressions
 
 
 ---
+## Contents
+0. [Quick Links (to navigate Project Documentation)](#quick-links)
+1. [Problem Statement](#1-problem-statement)
+2. [Game Modeling](#2-game-modeling)
+3. [Our Solution Method](#3-solution-method)
+4. [Related Solutions](#4-related-solutions-to-similar-problems)
+5. [All Project Links](#5-all-project-links)
+
+
+---
 ### Quick Links
 Links to important documentation:
 - [Source Code (Github Repo)](https://github.com/akm303/carcassonne-ai)
@@ -42,16 +52,7 @@ Links to important documentation:
 - [Milestone 1 (State Space Descripton)](statespace.md)
 - [Team Contributions](contributions.md)
 
-More included at the bottom [(click here)](#project-links).
-
-
----
-## Contents
-1. [Problem Statement](#1-problem-statement)
-2. [Game Modeling](#2-game-modeling)
-3. [Our Solution Method](#3-solution-method)
-4. [Related Solutions](#4-related-solutions-to-similar-problems)
-5. [All Project Links](#5-all-project-links)
+More included at the bottom of this doc [(click here)](#project-links).
 
 
 ---
