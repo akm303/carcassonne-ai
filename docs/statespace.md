@@ -273,7 +273,7 @@ Adjacent tiles must share the same feature type on adjacent edges.
 For board $B_s$, board position $b_{i,j}$, and tile $t_s$ rotated by $\theta$ to be assigned to $b_{i,j}$,  
 So $b_{i,j} = t_s = rotate(t_s, \theta)$.  
 
-Let function $is\\_valid\\_placement(B,b_{i,j})$ return true if all adjacent tile edges share the same feature $f$:
+Let function $is\\_valid\\_placement(B,b\_{i,j})$ return true if all adjacent tile edges share the same feature $f$:
 
 - For each board positions with tiles $b'\in B$ (where $b'$ is assigned tile $t'$),  
 and $b'$ is adjacent to $b_{i,j}$ (ie. all $b'\in\{b_{i+1,j}, b_{i-1,j}, b_{i,j+1}, b_{i,j-1}\}$),  
