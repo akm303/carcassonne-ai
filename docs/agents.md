@@ -1,7 +1,12 @@
+---
+layout: default
+---
 # Agents
+*information about our design and implementation of agents and specific algorithms*
+
 ## Table of Contents
-1. Agent Types
-2. Agent Design & Implementation
+1. [Agent Types](#1-agent-types)
+2. [Agent Design & Implementation](#2-agent-design--implementation)
 
 
 ---
