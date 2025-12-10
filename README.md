@@ -39,16 +39,8 @@ Once installed, run the following command to start a game:
 ```sh
 python game.py
 ```
+Menu/game running details [here](docs/setup.md)
 
-A menu will appear:
-- adjust game speed
-- choose whether or not to display a scoreboard
-- select number of players
-    - implementation well tested for two agents
-- choose your two agents
-    - if MCTS chosen, adjust iterations  
-    iterations are the number of search nodes to generate before selection an action
-- hit start
 
 
 ## API

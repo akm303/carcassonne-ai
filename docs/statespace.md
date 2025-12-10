@@ -10,11 +10,10 @@ layout: default
 ## Contents:
 1. [Game Description](#1-game-description)
 2. [Game Model](#2-model)
-3. [State Space](#3-states-state-space-)
-4. [Action Space](#4-actions-action-space-)
-5. [Transition Model](#5-transition-transition-function-)
-6. [Observation Model](#6-observations-function-)
-
+3. [State Space](#3-states)
+4. [Action Space](#4-actions)
+5. [Transition Model](#5-transition)
+6. [Observation Model](#6-observations)
 
 ---
 ## 1. Game Description
@@ -62,10 +61,10 @@ tile types, but constant and consistent across runs of the base game)
 ---
 ### Game Objects
 We define the following objects that make up a game state below:
-- *Tiles*
-- *Deck* (of tiles)
-- *Board*
-- *Meeple*
+- [*Tiles*](#tiles)
+- [*Deck*](#deck) (of tiles)
+- [*Board*](#board)
+- [*Meeple*](#meeple)
 
 
 ---
@@ -123,7 +122,7 @@ $D$ will be referred to as the 'pile' or 'deck'.
 $D$ has methods:
 - $push()$: to enqueue a tile 
 - $pop()$: to dequeue a tile 
-- $next()$: to view next tile in queue (aka the 'top' of the deck) 
+- $next()$: to view next tile in queue (aka the 'top' of the deck)  
 $\forall t\in\mathcal{T}$ are pushed onto $D$ in a random order.  
 $t\in D=\{t_1,t_2,...,t_{72}\}$ where $t_s$ is the tile drawn at step $s$.  
 
@@ -134,16 +133,16 @@ Let $B$ represent the Board:
 - $B$ is a 35x35 matrix *
 - Let $i,j$ be indices such that $\forall i,j: 1 ≤ i,j ≤ 35$
 - $b_{i,j}$ represents the position on $B$ at coordinates $(i,j)$
-- For each $b_{i,j}\in B$:
-$$
+- For each $b_{i,j}\in B$:  
+```math
 b_{i,j} = 
 \begin{cases} 
     0 & \text{if no tile at position }(i,j) \\
-    t_{s} & \text{if tile $t_s$ at position }(i,j) \\
+    t_{s} & \text{if tile } t_s \text{ at position }(i,j) \\
 \end{cases}
-$$  
-- ie. Board $B$ is:
-$$
+```
+- ie. Board $B$ is:  
+```math
 B=
 \begin{bmatrix}
     b_{1,1} & b_{1,2} & b_{1,3} & \dots  & b_{1,35} \\
@@ -151,7 +150,8 @@ B=
     \vdots & \vdots & \vdots & \ddots & \vdots \\
     b_{35,1} & b_{35,2} & b_{35,3} & \dots  & b_{35,35}
 \end{bmatrix}
-$$
+```
+
 Let $tiles(B)$ return the set of tiles currently in $B$  
 Let $|B|$ return the number of tiles currently in $B$  
 
@@ -159,9 +159,9 @@ Let $|B|$ return the number of tiles currently in $B$
 ---
 #### *Meeple*
 Meeples provide a point-multiplying mechanism in Carcassonne.  
-After a tile is placed, the player has the option to also place  
-a meeple on a feature of that tile, as long as it is the first  
-and only meeple of that feature.  
+After a tile is placed, the player has the option to also place a  
+meeple on a feature of that tile, as long as it is the first and  
+only meeple of that feature.  
 (eg. if the current tile is placed to extend a road that already  
 has a meeple, a new meeply may not be placed.)
 
@@ -182,7 +182,8 @@ $p\in t_{p}$ at time step $s$. An unplaced meeple is denoted as $m\in M$.
 
 
 ---
-### 3. States: *(State Space $\mathbb X$)*
+### 3. States
+*(State Space* $\mathbb{X}$*)*  
 Let $\mathbb X$ be the state space of the Carcassonne base game.  
 At each step $s$, where $1 ≤ s ≤ 72$, we define the current game state $x_s\in\mathbb X$  
 as an aggregate of the object states $x_s = [\mathbb P',B_s, D_s]$, where:
@@ -190,14 +191,16 @@ as an aggregate of the object states $x_s = [\mathbb P',B_s, D_s]$, where:
 - $\mathbb P'$ denotes the current player (player whose turn it is on step $s$, let $\mathbb P''$ denote the other player)
     - $\mathbb P' = \mathbb P_{(s-1)\mod 2}$ in a two player game
     - $\mathbb P_M'$ denotes that player's set of unplaced meeples
-    - ie.
-$$
-    s=1: \mathbb P' =\mathbb P_0 \\ 
-    s=2: \mathbb P' =\mathbb P_1 \\ 
-    s=3: \mathbb P' =\mathbb P_0 \\ 
+    - ie.  
+```math
+\begin{align}
+    s=1&:&\ \mathbb P' &=&\mathbb P_0 \\ 
+    s=2&:&\ \mathbb P' &=&\mathbb P_1 \\ 
+    s=3&:&\ \mathbb P' &=&\mathbb P_0 \\ 
     ...\\
-    s=72: \mathbb P' =\mathbb P_1 \\
-$$
+    s=72&:&\ \mathbb P' &=&\mathbb P_1 \\
+\end{align}
+```
 - $B_s$ is the board state at step s 
     - ie. $tiles(B_s)=\{t_1,...,t_{s-1}\}$
 - $D_s$ is the remaining undrawn tiles
@@ -205,7 +208,7 @@ $$
     - $\therefore D_s = [t_{s},...,t_{72}]$
     - Let $t_s$ be the next tile drawn from $D_s$
         - ie. $t_s=D_s.next()$  
-_*Note: because $t_s$ is implicitly defined in $D_s$, its not included separately in the game state,  
+_*Note: because_ $t_s$ _*is implicitly defined in*_ $D_s$, _its not included separately in the game state,  
         though it will be referred to here as the 'current' or 'active' tile_
         - Only $t_s$ is observable in $D_s$  
 
@@ -216,8 +219,8 @@ $x_1$: the following assignments are made:
 - $\mathbb P'=\mathbb P_0$ 
 - $D_1=D$ 
 - $B_1$ is an empty board;   
-$\forall b_{i,j}\in B_1, b_{i,j}=0$, so: 
-$$
+This means $\forall b_{i,j}\in B_1,\ b_{i,j}=0,$ so:  
+```math
 \begin{matrix}
 B_1=
 \begin{bmatrix}
@@ -228,16 +231,18 @@ B_1=
 \end{bmatrix} \\
 \\ 
 \begin{matrix}
-ie. & tiles(B_1)=\{\} \\ 
-\therefore & meeples(B_1)=\{\}
+ie. & tiles(B_1)=\emptyset \\ 
+\therefore & meeples(B_1)=\emptyset
 \end{matrix}
 \end{matrix}
-$$
-$\therefore x_1 = [\mathbb P', B_1,D_1] = [\mathbb P_0, B_1, D]$
+```
+$\therefore\ x_1 = [\mathbb P', B_1,D_1] = [\mathbb P_0, B_1, D]$
 
 
 ---
-### 4. Actions *(Action Space $\mathcal A$)*
+### 4. Actions
+*(Action Space* $\mathcal{A}$*)*  
+
 The action space $\mathcal A$ is defined as the set of all possible tile and meeple placements  
 for $t_s,B_s\in x_s$ that produces a legal $B_{s+1}\in x_{s+1}$  
 (ie. producing a valid transition from $x_s \to x_{s+1}$).
@@ -248,18 +253,17 @@ First, the player selects a board location and rotation for current tile $t_s$ t
 Second, the player chooses whether or not to place a meeple on a feature of the tile they just placed;  
 meeple placement is valid as long as the feature doesn't already contain another meeple.
 
-Actions $a_s\in\mathcal A$ are defined as tuples:
-$$
-\begin{array}{l}
-    a_s = ((b_{i,j},\theta),p), \text{ where:} \\
-    \begin{array}{l}
-        \text{position }b_{i,j}\in B_s\land b_{i,j}=0, \\
-        \text{rotation } \theta \text{ is selected st. }is\_valid\_placement(B_s, b_{i,j}=rotate(t_s,\theta))\text{ returns True}, \\
-        \text{and position } p\in t_s \text{ is selected st. }is\_valid\_meeple(B_s, b_{i,j}, p) \\
-    \end{array}
-\end{array}
-$$
-The two helper functions, $is\_valid\_placement()$ and $is\_valid\_meeple()$ are defined below.
+Actions $a_s\in\mathcal A$ are defined as tuples:  
+```math
+\begin{align}
+    a_s =& ((b_{i,j},\theta),p), \text{ where:} \\
+        & \text{position }b_{i,j}\in B_s\land b_{i,j}=0, \\
+        & \text{rotation } \theta \text{ is selected st. }is\_valid\_placement(B_s, b_{i,j}=rotate(t_s,\theta))\text{ returns True}, \\
+        & \text{and position } p\in t_s \text{ is selected st. }is\_valid\_meeple(B_s, b_{i,j}, p) \\
+\end{align}
+```
+
+The two helper functions, $is\\_valid\\_placement()$ and $is\\_valid\\_meeple()$ are defined below.
 
 
 ---
@@ -267,9 +271,9 @@ The two helper functions, $is\_valid\_placement()$ and $is\_valid\_meeple()$ are
 Adjacent tiles must share the same feature type on adjacent edges.  
 
 For board $B_s$, board position $b_{i,j}$, and tile $t_s$ rotated by $\theta$ to be assigned to $b_{i,j}$,  
-(ie. $b_{i,j} = t_s = rotate(t_s,\theta)$)
+So $b_{i,j} = t_s = rotate(t_s, \theta)$.  
 
-Let function $is\_valid\_placement(B,b_{i,j})$ return true if all adjacent tile edges share the same feature $f$:
+Let function $is\\_valid\\_placement(B,b\_{i,j})$ return true if all adjacent tile edges share the same feature $f$:
 
 - For each board positions with tiles $b'\in B$ (where $b'$ is assigned tile $t'$),  
 and $b'$ is adjacent to $b_{i,j}$ (ie. all $b'\in\{b_{i+1,j}, b_{i-1,j}, b_{i,j+1}, b_{i,j-1}\}$),  
@@ -277,50 +281,49 @@ and $b'$ is adjacent to $b_{i,j}$ (ie. all $b'\in\{b_{i+1,j}, b_{i-1,j}, b_{i,j+
 - If $\exists\ b'\text{ st. } e_f≠e_f'$, return $False$.  
 - Otherwise return $True$.
 
-Let function $features\_with\_meeple(B,t_s)$ return the set of all  
+Let function $features\\_with\\_meeple(B,t_s)$ return the set of all  
 features on, and extended by, tile $t_s$ that currently have a meeple.  
 
-Let function $is\_valid\_meeple(B,t_s,p)$ return true if  
-$p_f \cup features\_with\_meeple(B,t_s)=\empty$.  
+Let function $is\\_valid\\_meeple(B,t_s,p)$ return true if  
+$p_f \cup features\\_with\\_meeple(B,t_s) = \emptyset$.  
 
 (ie. the feature $f$ at position $p\in t^p_s$ does not extend a feature that currently has a meeple)
 
 ---
-### 5. Transition *(Transition Function $T$)*
+### 5. Transition
+*(Transition Function* $T$*)*  
+
 Transition function $T: \mathbb{X}\times\mathcal{A} \rightarrow \mathbb{X}$  
 for a state $x_s=[\mathbb{P}',B_s,D_s]$  
 and action $a_s=((b_{i,j},\theta),p)$  
 the next state is:  
 $x_{s+1}=T(x_s,a_s)=[\mathbb{P}'',B_{s+1},D_{s+1}]$
 
-Where:
-$$
-B_{s+1} = 
-\begin{cases}
-b_{x,y}\in B_s & \text{ if } (x,y) ≠ (i,j) \\
-b_{i,j}=rotate(t_s,\theta) & \text{otherwise} 
-\end{cases} \\
-$$
+Where:  
+```math
+\begin{align}
+    B_{s+1} &= && 
+    \begin{cases}
+    b_{x,y}\in B_s & \text{ if } (x,y) ≠ (i,j) \\
+    b_{i,j}=rotate(t_s,\theta) & \text{otherwise} 
+    \end{cases} \\
 
+    \mathbb P'_M &=&& 
+    \begin{cases}
+    \mathbb P'_M - \{m\} & \text{if meeple } m \text{placed} \\
+    \mathbb P'_M & \text{if no meeple placed}
+    \end{cases} \\
 
-$$
-\mathbb P'_M = 
-\begin{cases}
-\mathbb P'_M - \{m\} & \text{if meeple $m$ placed} \\
-\mathbb P'_M & \text{if no meeple placed}
-\end{cases}
-$$
-
-$$
-\begin{matrix}
-D_{s+1} &=& D_s - \{t_s\} \\
-t_{s+1} &=& D_{s+1}.next() \\
-\end{matrix}
-$$
+    D_{s+1} &= && D_s - \{t_s\} \\
+    t_{s+1} &= && D_{s+1}.next() \\
+\end{align}
+```
 
 
 ---
-### 6. Observations (Function $O$)
+### 6. Observations
+(Function $O$)  
+
 Observation $O(x_s)=(\mathbb P',B_s,t_s)$  
 ie. Both players observe from game state $x_s$,  
 - the current player ($P'$),  

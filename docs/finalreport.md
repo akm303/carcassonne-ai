@@ -20,10 +20,27 @@ This includes the following:
 
 See [original author's implementation document](#4-programming-carcassonne---vincent-bons-wingedsheep-2020) for more details.
 
+
+
 ###### ***Regarding Documentation and Math Rendering***:  
-Math rendering currently using KaTeX. Effort currently under way to format  
-using MathJAX, for reading documentation with github's markdown viewer.  
-Currently, Matrix expressions and fonts appear broken on github's default markdown viewer.
+Math expressions are formatted for rendering using github's built-in markdown viewer
+- The github site still doesn't correctly render the math expressions
+- Instead its easiest to go through documentation directly from the repo page.  
+  Scroll down to the readme, and use the links to navigate our documentation
+
+It is recommended to use Github's viewer, but any markdown viewer that is compatible with  
+MathJax or KaTeX should be capable of rendering the expressions
+
+
+---
+## Contents
+0. [Quick Links (to navigate Project Documentation)](#quick-links)
+1. [Problem Statement](#1-problem-statement)
+2. [Game Modeling](#2-game-modeling)
+3. [Our Solution Method](#3-solution-method)
+4. [Related Solutions](#4-related-solutions-to-similar-problems)
+5. [All Project Links](#5-all-project-links)
+
 
 ---
 ### Quick Links
@@ -35,16 +52,7 @@ Links to important documentation:
 - [Milestone 1 (State Space Descripton)](statespace.md)
 - [Team Contributions](contributions.md)
 
-More included at the bottom [(click here)](#project-links).
-
-
----
-## Contents
-1. [Problem Statement](#1-problem-statement)
-2. [Game Modeling](#2-game-modeling)
-3. [Our Solution Method](#3-solution-method)
-4. [Related Solutions](#4-related-solutions-to-similar-problems)
-5. [All Project Links](#5-all-project-links)
+More included at the bottom of this doc [(click here)](#project-links).
 
 
 ---
