@@ -139,7 +139,7 @@ Let $B$ represent the Board:
 b_{i,j} = 
 \begin{cases} 
     0 & \text{if no tile at position }(i,j) \\
-    t_{s} & \text{if tile $t_s$ at position }(i,j) \\
+    t_{s} & \text{if tile } t_s \text{ at position }(i,j) \\
 \end{cases}
 ```
 - ie. Board $B$ is:  
@@ -282,7 +282,7 @@ Let function $features\_with\_meeple(B,t_s)$ return the set of all
 features on, and extended by, tile $t_s$ that currently have a meeple.  
 
 Let function $is\_valid\_meeple(B,t_s,p)$ return true if  
-$p_f \cup features\_with\_meeple(B,t_s)=\empty$.  
+$p_f \cup$ features\_with\_meeple$(B,t_s)=\emptyset$.  
 
 (ie. the feature $f$ at position $p\in t^p_s$ does not extend a feature that currently has a meeple)
 
